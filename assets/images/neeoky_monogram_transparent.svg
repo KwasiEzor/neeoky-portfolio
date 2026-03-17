@@ -1,0 +1,138 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" width="4096" height="4096">
+  <defs>
+
+    <!-- Gradient ombre violet → rose -->
+    <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7F77DD"/>
+      <stop offset="100%" stop-color="#D4537E"/>
+    </linearGradient>
+
+    <!-- Gradient radial pour halo ambiant -->
+    <radialGradient id="haloGrad" cx="50%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#D4537E" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#7F77DD" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7F77DD" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Filtre halo large diffus -->
+    <filter id="glowOuter" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="55" result="blur"/>
+      <feComposite in="blur" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Filtre glow moyen -->
+    <filter id="glowMid" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+
+    <!-- Filtre ombre proche (shadow tight) -->
+    <filter id="glowTight" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+
+    <!-- Filtre ombre directionnelle subtile -->
+    <filter id="shadowDrop" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feOffset dx="0" dy="8" result="offsetBlur"/>
+    </filter>
+
+    <!-- Masque pour isoler l'effet glow uniquement autour du N -->
+    <clipPath id="clipN">
+      <rect x="0" y="0" width="800" height="800"/>
+    </clipPath>
+
+  </defs>
+
+  <!-- ══════════════════════════════════════════
+       FOND : transparent (aucun rect de fond)
+  ══════════════════════════════════════════ -->
+
+  <!-- ══════════════════════════════════════════
+       COUCHE 1 : Halo ambiant large (aura globale)
+  ══════════════════════════════════════════ -->
+  <polyline
+    points="205,655 205,145 595,655 595,145"
+    fill="none"
+    stroke="url(#shadowGrad)"
+    stroke-width="110"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+    stroke-linecap="butt"
+    filter="url(#glowOuter)"
+    opacity="0.45"/>
+
+  <!-- ══════════════════════════════════════════
+       COUCHE 2 : Glow moyen (profondeur de l'ombre)
+  ══════════════════════════════════════════ -->
+  <polyline
+    points="205,655 205,145 595,655 595,145"
+    fill="none"
+    stroke="url(#shadowGrad)"
+    stroke-width="95"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+    stroke-linecap="butt"
+    filter="url(#glowMid)"
+    opacity="0.65"
+    transform="translate(0, 6)"/>
+
+  <!-- ══════════════════════════════════════════
+       COUCHE 3 : Ombre tight (bord coloré précis)
+  ══════════════════════════════════════════ -->
+  <polyline
+    points="205,655 205,145 595,655 595,145"
+    fill="none"
+    stroke="url(#shadowGrad)"
+    stroke-width="86"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+    stroke-linecap="butt"
+    filter="url(#glowTight)"
+    opacity="0.85"
+    transform="translate(0, 3)"/>
+
+  <!-- ══════════════════════════════════════════
+       COUCHE 4 : Ombre directionnelle subtile
+  ══════════════════════════════════════════ -->
+  <polyline
+    points="205,655 205,145 595,655 595,145"
+    fill="none"
+    stroke="url(#shadowGrad)"
+    stroke-width="82"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+    stroke-linecap="butt"
+    filter="url(#shadowDrop)"
+    opacity="0.9"/>
+
+  <!-- ══════════════════════════════════════════
+       COUCHE 5 : Monogramme N — BLANC PUR
+       Bord solide net, crisp, sans blur
+  ══════════════════════════════════════════ -->
+  <polyline
+    points="205,655 205,145 595,655 595,145"
+    fill="none"
+    stroke="white"
+    stroke-width="78"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+    stroke-linecap="butt"/>
+
+  <!-- ══════════════════════════════════════════
+       ACCENT : Micro-ligne de données (détail tech)
+       Fine ligne horizontale traversant le centre
+  ══════════════════════════════════════════ -->
+  <line
+    x1="160" y1="400"
+    x2="640" y2="400"
+    stroke="url(#shadowGrad)"
+    stroke-width="3"
+    stroke-linecap="round"
+    opacity="0.6"/>
+
+  <!-- Points lumineux aux intersections -->
+  <circle cx="205" cy="400" r="5" fill="#7F77DD" opacity="0.8"/>
+  <circle cx="400" cy="400" r="4" fill="white" opacity="0.9"/>
+  <circle cx="595" cy="400" r="5" fill="#D4537E" opacity="0.8"/>
+
+</svg>
