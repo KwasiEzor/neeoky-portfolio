@@ -975,9 +975,9 @@ input, select, textarea {
 .portfolio-card {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
   display: flex;
   align-items: flex-end;
+  min-height: 280px;
   transition: var(--transition);
 }
 
@@ -989,12 +989,12 @@ input, select, textarea {
 .portfolio-card-bg {
   position: absolute;
   inset: 0;
-  opacity: 0.3;
+  opacity: 0.2;
   transition: var(--transition);
 }
 
 .portfolio-card:hover .portfolio-card-bg {
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 .portfolio-card-content {
@@ -1007,15 +1007,56 @@ input, select, textarea {
   gap: 8px;
 }
 
+.portfolio-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-full);
+  background: var(--gradient);
+  color: #fff;
+  margin-bottom: 4px;
+}
+
 .portfolio-category {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
 }
 
-.portfolio-status {
+.portfolio-desc {
   font-size: 0.85rem;
   color: var(--muted);
+  line-height: 1.6;
+}
+
+.portfolio-metrics {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.portfolio-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--teal);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(45, 212, 191, 0.08);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+}
+
+.portfolio-metric svg {
+  width: 14px;
+  height: 14px;
 }
 
 .portfolio-cta {
@@ -1714,7 +1755,7 @@ input, select, textarea {
 /* Skills / Compétences */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 
@@ -2085,9 +2126,8 @@ input, select, textarea {
   }
 
   .portfolio-grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
-    margin: 0 auto 48px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 48px;
   }
 
   .why-grid {
@@ -2127,7 +2167,7 @@ input, select, textarea {
   }
 
   .skills-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .stats-grid {
@@ -2221,6 +2261,11 @@ input, select, textarea {
     display: none;
   }
 
+  /* Portfolio */
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
   /* Services */
   .services-grid {
     max-width: 100%;
@@ -2256,6 +2301,10 @@ input, select, textarea {
   }
 
   /* About */
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr 1fr;
   }

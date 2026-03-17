@@ -1,6 +1,6 @@
-# neeoky — Monteur Vidéo Augmenté par l'IA
+# neeoky — Créatif Digital Augmenté par l'IA
 
-Portfolio personnel de neeoky, monteur vidéo freelance spécialisé dans le montage augmenté par l'intelligence artificielle.
+Portfolio personnel de neeoky, créatif digital freelance : montage vidéo, sites vitrines sur mesure et services digitaux, le tout propulsé par des workflows IA.
 
 ## Structure du projet
 
@@ -21,7 +21,7 @@ neeoky-portfolio/
 - **HTML5 / CSS3 / Vanilla JS** — Aucun framework, aucun bundler
 - **Fonts** — Syne (headings) + DM Sans (body) via Google Fonts
 - **Icons** — Lucide Icons v0.453.0
-- **Formulaire** — Formspree (remplacer `YOUR_FORM_ID` dans `contact.html`)
+- **Formulaire** — Formspree
 - **Design** — Dark mode, gradient violet/rose, glassmorphism, animations scroll
 
 ## Pages
@@ -30,7 +30,7 @@ neeoky-portfolio/
 Hero avec carte flottante, marquee d'outils, grille de services (Starter / Pro IA / Mensuel), process en 4 étapes, portfolio, niches, pourquoi moi, FAQ, CTA compact.
 
 ### À propos (`about.html`)
-Hero avatar, storytelling en 3 étapes, compétences avec barres de progression animées, stats avec counter animation, valeurs, timeline 2024-2026.
+Hero avatar, storytelling en 3 étapes, compétences avec barres de progression animées (montage, IA, design, web & sites vitrines), stats avec counter animation, valeurs, timeline 2024-2026.
 
 ### Contact (`contact.html`)
 Formulaire Formspree (nom, email, type de projet, message) avec sidebar (disponibilité, liens sociaux, notes info).
@@ -61,12 +61,6 @@ Les blocs partagés sont marqués par des commentaires `<!-- SHARED: ... START/E
 - Progress bar throttlée avec `requestAnimationFrame`
 
 ## Configuration
-
-### Formspree
-Remplacer `YOUR_FORM_ID` dans `contact.html` :
-```html
-<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-```
 
 ### Liens sociaux
 Mettre à jour les `href="#"` dans le footer et la sidebar contact avec les vraies URLs (Malt, Fiverr, LinkedIn, Instagram).
