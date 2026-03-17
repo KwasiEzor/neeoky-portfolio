@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>neeoky — Monteur Vidéo Augmenté par l'IA</title>
+  <meta name="description" content="Montage vidéo augmenté par l'IA. Tu filmes, je m'occupe du reste — monté, sous-titré, clipé, livré en 24-48h avec un workflow 100% IA.">
+  <meta property="og:title" content="neeoky — Monteur Vidéo Augmenté par l'IA">
+  <meta property="og:description" content="Tu filmes, je m'occupe du reste — monté, sous-titré, clipé, livré en 24-48h avec un workflow 100% IA.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" aria-hidden="true"></div>
+
+  <!-- Noise Overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Aurora Blobs -->
+  <div class="aurora-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="logo" aria-label="neeoky — Accueil">neeoky</a>
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <a href="#contact" class="btn btn-primary nav-cta">Travailler ensemble</a>
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge animate-on-scroll">
+            <span class="badge-dot"></span>
+            Disponible pour nouveaux projets
+          </div>
+          <h1 class="hero-title animate-on-scroll">
+            <span class="hero-line">Montage Vidéo</span>
+            <span class="hero-line gradient-text">Augmenté par l'IA</span>
+            <span class="hero-line outline-text">qui convertit.</span>
+          </h1>
+          <p class="hero-subtitle animate-on-scroll">
+            Tu filmes. Je m'occupe du reste — monté, sous-titré, clipé, livré en 24-48h avec un workflow 100% IA.
+          </p>
+          <div class="hero-buttons animate-on-scroll">
+            <a href="#services" class="btn btn-primary btn-lg">
+              <i data-lucide="sparkles"></i>
+              Voir mes offres
+            </a>
+            <a href="#contact" class="btn btn-ghost btn-lg">
+              <i data-lucide="send"></i>
+              Me contacter
+            </a>
+          </div>
+        </div>
+        <div class="hero-card-wrapper animate-on-scroll">
+          <div class="hero-card floating">
+            <div class="hero-card-header">
+              <div class="hero-avatar">N</div>
+              <div>
+                <div class="hero-card-name">neeoky</div>
+                <div class="hero-card-role">Monteur Vidéo IA</div>
+              </div>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <span class="hero-stat-value" data-target="24">0</span><span class="hero-stat-suffix">h</span>
+                <span class="hero-stat-label">Délai</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-value" data-target="100">0</span><span class="hero-stat-suffix">%</span>
+                <span class="hero-stat-label">IA</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-value" data-target="5">0</span><span class="hero-stat-suffix">★</span>
+                <span class="hero-stat-label">Qualité</span>
+              </div>
+            </div>
+            <div class="hero-tags">
+              <span class="tag">Fitness</span>
+              <span class="tag">Dev Perso</span>
+              <span class="tag">Psychologie</span>
+              <span class="tag">Tech</span>
+              <span class="tag">Manga</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ MARQUEE ═══════════════ -->
+    <section class="marquee-section" aria-label="Outils utilisés">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span>OpusClip</span><span class="marquee-sep">✦</span>
+          <span>Descript</span><span class="marquee-sep">✦</span>
+          <span>Captions.ai</span><span class="marquee-sep">✦</span>
+          <span>Leonardo.ai</span><span class="marquee-sep">✦</span>
+          <span>ElevenLabs</span><span class="marquee-sep">✦</span>
+          <span>CapCut</span><span class="marquee-sep">✦</span>
+          <span>Premiere Pro</span><span class="marquee-sep">✦</span>
+          <span>DaVinci Resolve</span><span class="marquee-sep">✦</span>
+          <span>Canva</span><span class="marquee-sep">✦</span>
+          <span>Midjourney</span><span class="marquee-sep">✦</span>
+          <span>Make.com</span><span class="marquee-sep">✦</span>
+          <span>ChatGPT</span><span class="marquee-sep">✦</span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+          <span>OpusClip</span><span class="marquee-sep">✦</span>
+          <span>Descript</span><span class="marquee-sep">✦</span>
+          <span>Captions.ai</span><span class="marquee-sep">✦</span>
+          <span>Leonardo.ai</span><span class="marquee-sep">✦</span>
+          <span>ElevenLabs</span><span class="marquee-sep">✦</span>
+          <span>CapCut</span><span class="marquee-sep">✦</span>
+          <span>Premiere Pro</span><span class="marquee-sep">✦</span>
+          <span>DaVinci Resolve</span><span class="marquee-sep">✦</span>
+          <span>Canva</span><span class="marquee-sep">✦</span>
+          <span>Midjourney</span><span class="marquee-sep">✦</span>
+          <span>Make.com</span><span class="marquee-sep">✦</span>
+          <span>ChatGPT</span><span class="marquee-sep">✦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SERVICES ═══════════════ -->
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="package"></i>
+            Offres
+          </span>
+          <h2 class="section-title">Mes <span class="gradient-text">services</span></h2>
+          <p class="section-subtitle">Des offres claires, sans surprise. Choisis ce qui te convient.</p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Starter -->
+          <div class="service-card glass animate-on-scroll" data-delay="0">
+            <div class="service-card-header">
+              <span class="service-icon">🎬</span>
+              <h3 class="service-name">Starter</h3>
+              <div class="service-price">80€<span>/vidéo</span></div>
+            </div>
+            <ul class="service-features">
+              <li><i data-lucide="check"></i>Montage complet jusqu'à 15 min</li>
+              <li><i data-lucide="check"></i>Sous-titres automatiques retravaillés</li>
+              <li><i data-lucide="check"></i>Musique de fond sélectionnée</li>
+              <li><i data-lucide="check"></i>Export YouTube + Reels</li>
+              <li><i data-lucide="check"></i>Livraison 48h</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost btn-full">Choisir Starter</a>
+          </div>
+
+          <!-- Pro IA -->
+          <div class="service-card glass featured animate-on-scroll" data-delay="1">
+            <span class="popular-badge">Populaire</span>
+            <div class="service-card-header">
+              <span class="service-icon">🤖</span>
+              <h3 class="service-name">Pro IA</h3>
+              <div class="service-price">180€<span>/vidéo</span></div>
+            </div>
+            <ul class="service-features">
+              <li><i data-lucide="check"></i>Tout le pack Starter</li>
+              <li><i data-lucide="check"></i>3 clips courts Reels/Shorts</li>
+              <li><i data-lucide="check"></i>Miniature optimisée (IA + Canva)</li>
+              <li><i data-lucide="check"></i>Suppression auto des silences</li>
+              <li><i data-lucide="check"></i>Livraison 24h · 1 révision incluse</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-full">Choisir Pro IA</a>
+          </div>
+
+          <!-- Mensuel -->
+          <div class="service-card glass animate-on-scroll" data-delay="2">
+            <div class="service-card-header">
+              <span class="service-icon">🚀</span>
+              <h3 class="service-name">Mensuel</h3>
+              <div class="service-price">600€<span>/mois</span></div>
+            </div>
+            <ul class="service-features">
+              <li><i data-lucide="check"></i>4 vidéos Pro IA par mois</li>
+              <li><i data-lucide="check"></i>Priorité absolue sur les délais</li>
+              <li><i data-lucide="check"></i>12 clips courts inclus</li>
+              <li><i data-lucide="check"></i>4 miniatures incluses</li>
+              <li><i data-lucide="check"></i>Suivi stratégique contenu offert</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost btn-full">Choisir Mensuel</a>
+          </div>
+        </div>
+
+        <!-- Add-ons -->
+        <div class="addons animate-on-scroll">
+          <h3 class="addons-title">Add-ons à la carte</h3>
+          <div class="addons-grid">
+            <div class="addon glass">
+              <span class="addon-price">25€</span>
+              <span class="addon-name">Miniature seule</span>
+            </div>
+            <div class="addon glass">
+              <span class="addon-price">60€</span>
+              <span class="addon-name">Pack 5 clips courts</span>
+            </div>
+            <div class="addon glass">
+              <span class="addon-price">30€</span>
+              <span class="addon-name">Sous-titrage seul</span>
+            </div>
+            <div class="addon glass">
+              <span class="addon-price">80€</span>
+              <span class="addon-name">Audit chaîne YouTube</span>
+            </div>
+            <div class="addon glass">
+              <span class="addon-price">500€+</span>
+              <span class="addon-name">Workflow IA complet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ PROCESS ═══════════════ -->
+    <section class="section process" id="process">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="workflow"></i>
+            Process
+          </span>
+          <h2 class="section-title">Comment <span class="gradient-text">ça marche</span></h2>
+          <p class="section-subtitle">Un process simple et rapide, pensé pour te faire gagner du temps.</p>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-steps">
+            <div class="process-step glass animate-on-scroll" data-delay="0">
+              <div class="step-number">01</div>
+              <div class="step-content">
+                <h3>Tu m'envoies ta vidéo brute</h3>
+                <p>Via Google Drive, WeTransfer ou Dropbox. Taille max : 10 Go par projet.</p>
+              </div>
+            </div>
+            <div class="process-step glass animate-on-scroll" data-delay="1">
+              <div class="step-number">02</div>
+              <div class="step-content">
+                <h3>Je monte avec mon workflow IA</h3>
+                <p>Montage, sous-titrage, clips courts, miniatures — tout est optimisé par l'IA.</p>
+              </div>
+            </div>
+            <div class="process-step glass animate-on-scroll" data-delay="2">
+              <div class="step-number">03</div>
+              <div class="step-content">
+                <h3>Livraison en 24-48h</h3>
+                <p>Tu reçois ta vidéo finie avec un récap des choix créatifs et techniques.</p>
+              </div>
+            </div>
+            <div class="process-step glass animate-on-scroll" data-delay="3">
+              <div class="step-number">04</div>
+              <div class="step-content">
+                <h3>Tu valides ou révises</h3>
+                <p>1 révision gratuite incluse. Tu demandes, j'ajuste. Simple.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="process-tools animate-on-scroll">
+            <h3 class="tools-title">Mes outils IA</h3>
+            <div class="tools-grid">
+              <div class="tool-item glass">🎞️ OpusClip</div>
+              <div class="tool-item glass">📝 Descript</div>
+              <div class="tool-item glass">💬 Captions.ai</div>
+              <div class="tool-item glass">🎨 Leonardo.ai</div>
+              <div class="tool-item glass">🔊 ElevenLabs</div>
+              <div class="tool-item glass">✂️ CapCut</div>
+              <div class="tool-item glass">🎥 Premiere Pro</div>
+              <div class="tool-item glass">🎬 DaVinci Resolve</div>
+              <div class="tool-item glass">🖼️ Canva</div>
+              <div class="tool-item glass">🌄 Midjourney</div>
+              <div class="tool-item glass">⚙️ Make.com</div>
+              <div class="tool-item glass">🤖 ChatGPT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ PORTFOLIO ═══════════════ -->
+    <section class="section portfolio" id="portfolio">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="play"></i>
+            Portfolio
+          </span>
+          <h2 class="section-title">Mes <span class="gradient-text">réalisations</span></h2>
+          <p class="section-subtitle">Portfolio en cours de construction — les premiers projets arrivent très bientôt.</p>
+        </div>
+
+        <div class="portfolio-grid">
+          <div class="portfolio-card glass animate-on-scroll" data-delay="0">
+            <div class="portfolio-card-bg" style="background: linear-gradient(135deg, #a855f7, #ec4899);"></div>
+            <div class="portfolio-card-content">
+              <span class="portfolio-category">🏋️ Fitness & Sport</span>
+              <span class="portfolio-status">Bientôt disponible</span>
+            </div>
+          </div>
+          <div class="portfolio-card glass animate-on-scroll" data-delay="1">
+            <div class="portfolio-card-bg" style="background: linear-gradient(135deg, #ec4899, #2dd4bf);"></div>
+            <div class="portfolio-card-content">
+              <span class="portfolio-category">🧠 Développement Personnel</span>
+              <span class="portfolio-status">Bientôt disponible</span>
+            </div>
+          </div>
+          <div class="portfolio-card glass animate-on-scroll" data-delay="2">
+            <div class="portfolio-card-bg" style="background: linear-gradient(135deg, #2dd4bf, #a855f7);"></div>
+            <div class="portfolio-card-content">
+              <span class="portfolio-category">🎌 Manga & Culture</span>
+              <span class="portfolio-status">Bientôt disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-cta animate-on-scroll">
+          <p>Tu veux être parmi mes premiers clients ?</p>
+          <a href="#contact" class="btn btn-primary">
+            <i data-lucide="arrow-right"></i>
+            Me contacter
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ NICHES ═══════════════ -->
+    <section class="section niches">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="target"></i>
+            Niches
+          </span>
+          <h2 class="section-title">Je comprends <span class="gradient-text">ton univers</span></h2>
+        </div>
+        <div class="niches-grid animate-on-scroll">
+          <div class="niche-pill glass">
+            <span class="niche-icon">💪</span>
+            <span>Fitness & Sport</span>
+          </div>
+          <div class="niche-pill glass">
+            <span class="niche-icon">🧠</span>
+            <span>Développement Personnel</span>
+          </div>
+          <div class="niche-pill glass">
+            <span class="niche-icon">🎌</span>
+            <span>Manga & Animé</span>
+          </div>
+          <div class="niche-pill glass">
+            <span class="niche-icon">🤖</span>
+            <span>Tech & IA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ POURQUOI MOI ═══════════════ -->
+    <section class="section why-me">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="star"></i>
+            Avantages
+          </span>
+          <h2 class="section-title">Pourquoi <span class="gradient-text">moi</span></h2>
+        </div>
+        <div class="why-grid">
+          <div class="why-card glass animate-on-scroll" data-delay="0">
+            <span class="why-icon">🎯</span>
+            <h3>Spécialisé dans ta niche</h3>
+            <p>Pas un généraliste. Je connais les codes de tes audiences et ce qui fonctionne dans ton domaine.</p>
+          </div>
+          <div class="why-card glass animate-on-scroll" data-delay="1">
+            <span class="why-icon">🤖</span>
+            <h3>Workflow 100% IA</h3>
+            <p>Plus vite, plus de livrables, même qualité. L'IA me permet de livrer plus en moins de temps.</p>
+          </div>
+          <div class="why-card glass animate-on-scroll" data-delay="2">
+            <span class="why-icon">⚡</span>
+            <h3>Livraison 24-48h garantie</h3>
+            <p>Pas d'attente interminable. Tu reçois ta vidéo finie en 24 à 48 heures max.</p>
+          </div>
+          <div class="why-card glass animate-on-scroll" data-delay="3">
+            <span class="why-icon">🔄</span>
+            <h3>1 révision incluse</h3>
+            <p>Sans discussion. Si quelque chose ne te convient pas, je corrige immédiatement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FAQ ═══════════════ -->
+    <section class="section faq">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="help-circle"></i>
+            FAQ
+          </span>
+          <h2 class="section-title">Questions <span class="gradient-text">fréquentes</span></h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item glass animate-on-scroll" data-delay="0">
+            <button class="faq-question" aria-expanded="false">
+              <span>Tu es disponible pour combien de clients par mois ?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Je travaille avec 3 clients maximum par mois pour garantir la qualité et le délai de chaque projet.</p>
+            </div>
+          </div>
+          <div class="faq-item glass animate-on-scroll" data-delay="1">
+            <button class="faq-question" aria-expanded="false">
+              <span>Comment se passe le premier contact ?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Tu m'envoies un message, on discute de ton projet, et je te propose un devis sous 24h. Pas d'engagement.</p>
+            </div>
+          </div>
+          <div class="faq-item glass animate-on-scroll" data-delay="2">
+            <button class="faq-question" aria-expanded="false">
+              <span>Quels formats de fichiers tu acceptes ?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer">
+              <p>MP4, MOV, AVI — via Google Drive, WeTransfer ou Dropbox. Taille max : 10 Go par projet.</p>
+            </div>
+          </div>
+          <div class="faq-item glass animate-on-scroll" data-delay="3">
+            <button class="faq-question" aria-expanded="false">
+              <span>Tu peux créer les sous-titres en anglais aussi ?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Oui, je gère le sous-titrage en français et en anglais grâce aux outils IA de transcription automatique.</p>
+            </div>
+          </div>
+          <div class="faq-item glass animate-on-scroll" data-delay="4">
+            <button class="faq-question" aria-expanded="false">
+              <span>C'est quoi le "workflow IA" exactement ?</span>
+              <i data-lucide="chevron-down" class="faq-chevron"></i>
+            </button>
+            <div class="faq-answer">
+              <p>J'utilise OpusClip pour les clips courts, Descript pour le montage par transcription, Captions.ai pour les sous-titres animés, et Leonardo.ai pour les miniatures. Résultat : plus de livrables, livré plus vite.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ CONTACT ═══════════════ -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge">
+            <i data-lucide="mail"></i>
+            Contact
+          </span>
+          <h2 class="section-title">Lançons quelque chose <span class="gradient-text">ensemble</span></h2>
+          <p class="section-subtitle">Décris-moi ton projet et je te réponds sous 24h. Disponibilité limitée à 3 clients/mois.</p>
+        </div>
+
+        <div class="contact-grid">
+          <form class="contact-form glass animate-on-scroll" id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="name">Nom</label>
+              <input type="text" id="name" name="name" placeholder="Ton nom" required>
+              <span class="form-error">Ce champ est requis</span>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="ton@email.com" required>
+              <span class="form-error">Email invalide</span>
+            </div>
+            <div class="form-group">
+              <label for="project-type">Type de projet</label>
+              <select id="project-type" name="project-type" required>
+                <option value="" disabled selected>Choisis une option</option>
+                <option value="starter">Pack Starter (80€)</option>
+                <option value="pro">Pack Pro IA (180€)</option>
+                <option value="mensuel">Pack Mensuel (600€)</option>
+                <option value="addon">Add-on à la carte</option>
+                <option value="autre">Autre / Sur mesure</option>
+              </select>
+              <span class="form-error">Sélectionne un type de projet</span>
+            </div>
+            <div class="form-group">
+              <label for="message">Description du projet</label>
+              <textarea id="message" name="message" rows="5" placeholder="Décris ton projet, ta chaîne, tes besoins..." required></textarea>
+              <span class="form-error">Ce champ est requis</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full btn-submit">
+              <span class="btn-text">Envoyer le message</span>
+              <span class="btn-loader" aria-hidden="true"></span>
+            </button>
+            <div class="form-success" id="formSuccess">
+              <i data-lucide="check-circle"></i>
+              <p>Message envoyé avec succès ! Je te réponds sous 24h.</p>
+            </div>
+          </form>
+
+          <div class="contact-info animate-on-scroll">
+            <div class="contact-links">
+              <a href="#" class="contact-link glass" aria-label="Malt">
+                <span class="contact-link-icon">📋</span>
+                <span>Malt</span>
+                <i data-lucide="external-link"></i>
+              </a>
+              <a href="#" class="contact-link glass" aria-label="Fiverr">
+                <span class="contact-link-icon">🟢</span>
+                <span>Fiverr</span>
+                <i data-lucide="external-link"></i>
+              </a>
+              <a href="#" class="contact-link glass" aria-label="LinkedIn">
+                <span class="contact-link-icon">💼</span>
+                <span>LinkedIn</span>
+                <i data-lucide="external-link"></i>
+              </a>
+              <a href="#" class="contact-link glass" aria-label="Instagram">
+                <span class="contact-link-icon">📸</span>
+                <span>Instagram</span>
+                <i data-lucide="external-link"></i>
+              </a>
+            </div>
+            <div class="contact-note glass">
+              <i data-lucide="alert-circle"></i>
+              <p>Disponibilité limitée à <strong>3 clients/mois</strong> pour garantir qualité et délais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">neeoky</a>
+        <p class="footer-tagline">Montage vidéo augmenté par l'IA</p>
+      </div>
+      <nav class="footer-links" aria-label="Liens du pied de page">
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="footer-bottom">
+        <p>&copy; 2026 neeoky &middot; Tous droits réservés</p>
+        <p class="footer-love">Fait avec ❤️ et beaucoup d'IA</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
