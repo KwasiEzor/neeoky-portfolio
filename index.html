@@ -25,6 +25,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@0.453.0" integrity="sha384-0v3Wh0ZtiQBYCYywQoeMDA5mAw5Z01p0lhorqy0BlwFrcN6u3lmN7K0U/e1uezmr" crossorigin="anonymous"></script>
 
+  <link rel="preload" as="image" href="assets/images/hero-poster.jpg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -76,6 +77,9 @@
 
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="hero" id="hero">
+      <video class="hero-video" muted autoplay loop playsinline preload="auto" poster="assets/images/hero-poster.jpg" aria-hidden="true">
+        <source src="assets/videos/storyboard_vidéo_neeoky_IA_créative.mp4" type="video/mp4">
+      </video>
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="badge animate-on-scroll">
@@ -566,6 +570,38 @@
             <div class="faq-answer">
               <p>J'utilise OpusClip pour les clips courts, Descript pour le montage par transcription, Captions.ai pour les sous-titres animés, et Leonardo.ai pour les miniatures. Résultat : plus de livrables, livré plus vite.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SHOWCASE VIDEO ═══════════════ -->
+    <section class="section showcase" id="showcase">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-badge"><i data-lucide="eye"></i> Aperçu</span>
+          <h2 class="section-title">Le <span class="gradient-text">résultat</span> parle</h2>
+          <p class="section-subtitle">Voici ce que vous obtenez avec un workflow 100% IA.</p>
+        </div>
+        <div class="showcase-grid animate-on-scroll">
+          <!-- Col gauche : texte + points forts -->
+          <div class="showcase-content">
+            <h3>Une vidéo pro, livrée en 24h</h3>
+            <ul class="showcase-list">
+              <li><i data-lucide="check-circle"></i> Montage dynamique et rythmé</li>
+              <li><i data-lucide="check-circle"></i> Animations et transitions IA</li>
+              <li><i data-lucide="check-circle"></i> Prêt à publier sur toutes les plateformes</li>
+            </ul>
+            <a href="contact.html" class="btn btn-primary">Obtenir le même résultat</a>
+          </div>
+          <!-- Col droite : vidéo -->
+          <div class="showcase-video-wrapper glass">
+            <video class="showcase-video" muted loop playsinline preload="metadata" poster="assets/images/showcase-poster.jpg">
+              <source src="assets/videos/Vidéo_Générée_Avec_Image_Animée.mp4" type="video/mp4">
+            </video>
+            <button class="showcase-play-btn" aria-label="Lire la vidéo">
+              <i data-lucide="play"></i>
+            </button>
           </div>
         </div>
       </div>

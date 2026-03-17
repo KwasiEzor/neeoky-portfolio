@@ -39,6 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 11. Active nav link ──
   initActiveNavLink();
+
+  // ── 12. Hero video background ──
+  initHeroVideo();
+
+  // ── 13. Showcase video ──
+  initShowcaseVideo();
 });
 
 
@@ -385,4 +391,97 @@ function initActiveNavLink() {
       link.classList.add('active');
     }
   });
+}
+
+
+/* ═══════════════ 12. HERO VIDEO BACKGROUND ═══════════════ */
+function initHeroVideo() {
+  const video = document.querySelector('.hero-video');
+  if (!video) return;
+
+  // Respect prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    return;
+  }
+
+  // Fade in when video is ready to play
+  function showVideo() {
+    video.classList.add('loaded');
+  }
+
+  video.addEventListener('canplay', showVideo, { once: true });
+
+  // Fallback: if canplay doesn't fire within 5s, show anyway
+  const fallbackTimer = setTimeout(() => {
+    if (!video.classList.contains('loaded')) {
+      showVideo();
+    }
+  }, 5000);
+
+  video.addEventListener('canplay', () => clearTimeout(fallbackTimer), { once: true });
+
+  // Pause/play based on visibility (IntersectionObserver)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  observer.observe(video);
+}
+
+
+/* ═══════════════ 13. SHOWCASE VIDEO ═══════════════ */
+function initShowcaseVideo() {
+  const wrapper = document.querySelector('.showcase-video-wrapper');
+  const video = document.querySelector('.showcase-video');
+  const playBtn = document.querySelector('.showcase-play-btn');
+  if (!wrapper || !video || !playBtn) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function togglePlay() {
+    if (video.paused) {
+      video.play().then(() => {
+        wrapper.classList.add('playing');
+      }).catch(() => {});
+    } else {
+      video.pause();
+      wrapper.classList.remove('playing');
+    }
+  }
+
+  playBtn.addEventListener('click', togglePlay);
+
+  // Click on video to pause
+  video.addEventListener('click', () => {
+    if (!video.paused) {
+      video.pause();
+      wrapper.classList.remove('playing');
+    }
+  });
+
+  // Auto-play on scroll (desktop only, respects reduced motion)
+  if (!prefersReducedMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          video.play().then(() => {
+            wrapper.classList.add('playing');
+          }).catch(() => {});
+        } else {
+          video.pause();
+          wrapper.classList.remove('playing');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(wrapper);
+  }
 }
