@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 9. Counter animation ──
   initCounters();
+
+  // ── 10. Skill bars animation ──
+  initSkillBars();
+
+  // ── 11. Active nav link ──
+  initActiveNavLink();
 });
 
 
@@ -49,6 +55,9 @@ function initCursor() {
     ring.style.display = 'none';
     return;
   }
+
+  // Activate custom cursor CSS (hides default cursor)
+  document.documentElement.classList.add('custom-cursor-active');
 
   let mouseX = 0;
   let mouseY = 0;
@@ -104,11 +113,18 @@ function initProgressBar() {
   const bar = document.querySelector('.progress-bar');
   if (!bar) return;
 
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    bar.style.width = progress + '%';
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = progress + '%';
+        ticking = false;
+      });
+      ticking = true;
+    }
   }, { passive: true });
 }
 
@@ -117,21 +133,31 @@ function initProgressBar() {
 function initMobileMenu() {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
+  const overlay = document.querySelector('.nav-overlay');
   if (!hamburger || !navLinks) return;
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    if (overlay) overlay.classList.remove('visible');
+  }
 
   hamburger.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
     hamburger.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', isOpen);
+    if (overlay) overlay.classList.toggle('visible', isOpen);
   });
+
+  // Close menu when clicking overlay
+  if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+  }
 
   // Close menu when clicking a link
   navLinks.querySelectorAll('.nav-link').forEach((link) => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', closeMenu);
   });
 }
 
@@ -175,6 +201,8 @@ function initFAQ() {
       // Close all items
       items.forEach((i) => {
         i.classList.remove('open');
+        const answer = i.querySelector('.faq-answer');
+        if (answer) answer.style.maxHeight = null;
         const btn = i.querySelector('.faq-question');
         if (btn) btn.setAttribute('aria-expanded', 'false');
       });
@@ -183,6 +211,8 @@ function initFAQ() {
       if (!isOpen) {
         item.classList.add('open');
         question.setAttribute('aria-expanded', 'true');
+        const answer = item.querySelector('.faq-answer');
+        if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
       }
     });
   });
@@ -212,7 +242,7 @@ function initContactForm() {
   const successMsg = document.getElementById('formSuccess');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // Reset errors
@@ -248,25 +278,32 @@ function initContactForm() {
 
     if (!isValid) return;
 
-    // Simulate sending
     const submitBtn = form.querySelector('.btn-submit');
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
 
-    setTimeout(() => {
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
-      form.reset();
-      successMsg.classList.add('visible');
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
 
-      // Re-init Lucide for dynamic icons
+      if (!response.ok) throw new Error('Erreur réseau');
+
+      form.reset();
+      if (successMsg) successMsg.classList.add('visible');
       lucide.createIcons();
 
-      // Hide success after 5s
       setTimeout(() => {
-        successMsg.classList.remove('visible');
+        if (successMsg) successMsg.classList.remove('visible');
       }, 5000);
-    }, 1500);
+    } catch (err) {
+      alert('Une erreur est survenue. Veuillez réessayer ou me contacter directement par email.');
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
   });
 }
 
@@ -277,7 +314,7 @@ function isValidEmail(email) {
 
 /* ═══════════════ 9. COUNTER ANIMATION ═══════════════ */
 function initCounters() {
-  const counters = document.querySelectorAll('.hero-stat-value[data-target]');
+  const counters = document.querySelectorAll('[data-target]');
   if (!counters.length) return;
 
   const observer = new IntersectionObserver((entries) => {
@@ -313,4 +350,39 @@ function animateCounter(el) {
   }
 
   requestAnimationFrame(update);
+}
+
+
+/* ═══════════════ 10. SKILL BARS ANIMATION ═══════════════ */
+function initSkillBars() {
+  const fills = document.querySelectorAll('.skill-fill[data-level]');
+  if (!fills.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const level = entry.target.dataset.level;
+        entry.target.style.width = level + '%';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  fills.forEach((fill) => observer.observe(fill));
+}
+
+
+/* ═══════════════ 11. ACTIVE NAV LINK ═══════════════ */
+function initActiveNavLink() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    const linkPage = href.split('#')[0] || 'index.html';
+
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    }
+  });
 }
