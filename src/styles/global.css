@@ -1,60 +1,507 @@
+/* ═══════════════════════════════════════════
+   NEEOKY PORTFOLIO — GLOBAL DESIGN SYSTEM
+   Dark mode · Gradient violet/rose · Glassmorphism
+   ═══════════════════════════════════════════ */
+
+/* ── Reset & Variables ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --primary: #a855f7;
   --secondary: #ec4899;
   --accent: #2dd4bf;
   --bg: #0a0a0f;
+  --bg-2: #0d0d1a;
+  --bg-3: #12122a;
+  --violet: #a855f7;
+  --rose: #ec4899;
+  --pink: #f472b6;
+  --teal: #2dd4bf;
   --text: #ffffff;
   --text-dim: rgba(255, 255, 255, 0.7);
+  --muted: #8b82b8;
   --glass: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.08);
+  --border: rgba(168, 85, 247, 0.18);
+  --gradient: linear-gradient(135deg, #a855f7, #ec4899);
+
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-full: 9999px;
+
+  --nav-height: 80px;
+  --nav-height-scrolled: 68px;
+
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ── Focus Visible ── */
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-video,
+  .showcase-video {
+    display: none;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height-scrolled) + 20px);
 }
 
 body {
-  background-color: var(--bg);
+  font-family: var(--font-body);
+  background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ── Custom Cursor (activated via JS) ── */
+.custom-cursor-active,
+.custom-cursor-active button,
+.custom-cursor-active a,
+.custom-cursor-active input,
+.custom-cursor-active select,
+.custom-cursor-active textarea,
+.custom-cursor-active .btn {
+  cursor: none;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--violet);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+.cursor-hover .cursor-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--rose);
+}
+
+.cursor-hover .cursor-ring {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(236, 72, 153, 0.4);
+}
+
+/* ── Progress Bar ── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gradient);
+  z-index: 1001;
+  transition: width 0.1s linear;
+  width: 0%;
+}
+
+/* ── Noise Overlay ── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── Aurora Blobs ── */
+.aurora-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--violet);
+  top: -200px;
+  right: -200px;
+  animation: aurora1 20s ease-in-out infinite alternate;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--rose);
+  bottom: -150px;
+  left: -150px;
+  animation: aurora2 25s ease-in-out infinite alternate;
+}
+
+.blob-3 {
+  width: 400px;
+  height: 400px;
+  background: var(--teal);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: aurora3 18s ease-in-out infinite alternate;
+}
+
+@keyframes aurora1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-100px, 100px) scale(1.2); }
+}
+
+@keyframes aurora2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(80px, -80px) scale(1.15); }
+}
+
+@keyframes aurora3 {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-40%, -60%) scale(1.3); }
+}
+
+/* ── Container ── */
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
+/* ── Glass ── */
+.glass {
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ── Buttons ── */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 100px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
   font-weight: 600;
+  font-size: 0.95rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   cursor: pointer;
   border: none;
+  white-space: nowrap;
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: var(--gradient);
   color: white;
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.45);
 }
 
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: var(--violet);
+  transform: translateY(-2px);
+}
+
+.btn-lg {
+  padding: 16px 36px;
+  font-size: 1.05rem;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: var(--gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* ── Sections (common) ── */
+.section {
+  padding: 100px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: rgba(168, 85, 247, 0.08);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--violet);
+  margin-bottom: 16px;
+}
+
+.section-badge svg {
+  width: 16px;
+  height: 16px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Scroll Animations ── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Nav Overlay (mobile) ── */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.nav-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+body.menu-open .navbar {
+  z-index: 1100;
+}
+
+body.menu-open .nav-overlay {
+  z-index: 1050;
+}
+
+/* ── Form States ── */
+.form-group.error .form-error {
+  display: block;
+}
+
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: var(--rose);
+}
+
+.btn-submit {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-submit.loading .btn-text {
+  opacity: 0;
+}
+
+.btn-submit.loading .btn-loader {
+  display: block;
+}
+
+.btn-loader {
+  display: none;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.form-success.visible {
+  display: flex;
+}
+
+/* ── Form Error Toast ── */
+.form-toast-error {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2000;
+  border-left: 4px solid var(--rose);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: var(--transition-slow);
+}
+
+.form-toast-error.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.form-toast-error svg {
+  color: var(--rose);
+  width: 20px;
+  height: 20px;
+}
+
+.form-toast-error p {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── Skip Link ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 10001;
+  padding: 0.75rem 1.5rem;
+  background: var(--violet);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+
+  body,
+  button, a, input, select, textarea {
+    cursor: auto;
+  }
+
+  .form-toast-error {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
 }

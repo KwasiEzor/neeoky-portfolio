@@ -7,9 +7,20 @@ import { ClientRouter } from 'astro:transitions';
 interface Props {
 	title: string;
 	description?: string;
+	canonicalUrl?: string;
+	ogImage?: string;
 }
 
-const { title, description = "Créatif Digital Augmenté par l'IA" } = Astro.props;
+const siteUrl = 'https://neeoky.com';
+const {
+	title,
+	description = "Créatif Digital Augmenté par l'IA — Montage vidéo, sites vitrines, services digitaux propulsés par l'IA.",
+	canonicalUrl,
+	ogImage = '/assets/images/hero-poster.jpg',
+} = Astro.props;
+
+const resolvedCanonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const resolvedOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
 ---
 
 <!doctype html>
@@ -21,7 +32,28 @@ const { title, description = "Créatif Digital Augmenté par l'IA" } = Astro.pro
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={resolvedCanonical} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={resolvedCanonical} />
+		<meta property="og:image" content={resolvedOgImage} />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:site_name" content="neeoky" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={resolvedOgImage} />
+
+		<!-- Preload hero poster -->
+		<link rel="preload" as="image" href="/assets/images/hero-poster.jpg" />
+
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,15 +62,37 @@ const { title, description = "Créatif Digital Augmenté par l'IA" } = Astro.pro
 			rel="stylesheet"
 		/>
 
-		<!-- Lucide Icons -->
-		<script is:inline src="https://unpkg.com/lucide@latest"></script>
-		
+		<!-- Lucide Icons (pinned version) -->
+		<script is:inline src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>
+
 		<ClientRouter />
 	</head>
 	<body>
+		<!-- Skip to content -->
+		<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+		<!-- Decorative elements -->
+		<div class="progress-bar" aria-hidden="true"></div>
+		<div class="noise-overlay" aria-hidden="true"></div>
+		<div class="aurora-blobs" aria-hidden="true">
+			<div class="blob blob-1"></div>
+			<div class="blob blob-2"></div>
+			<div class="blob blob-3"></div>
+		</div>
+		<div class="cursor-dot" aria-hidden="true"></div>
+		<div class="cursor-ring" aria-hidden="true"></div>
+
+		<!-- Nav overlay for mobile menu -->
+		<div class="nav-overlay" aria-hidden="true"></div>
+
 		<Navigation />
 		<slot />
-		
+
+		<!-- Shared client-side scripts -->
+		<script>
+			import '../scripts/main';
+		</script>
+
 		<script is:inline>
 			// Initialize Lucide icons on initial load and after view transitions
 			const initLucide = () => {

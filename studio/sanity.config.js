@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'neeoky-portfolio',
 
-  projectId: 'YOUR_PROJECT_ID', // Replaced with your project ID during deployment
+  projectId: 'cbdkq097',
   dataset: 'production',
 
   plugins: [deskTool(), visionTool()],

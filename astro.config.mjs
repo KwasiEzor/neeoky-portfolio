@@ -1,5 +1,8 @@
 import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
 import sanity from "astro-sanity";
+
+const env = loadEnv(import.meta.env?.MODE ?? 'production', process.cwd(), '');
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,9 +11,9 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     sanity({
-      projectId: "cbdkq097", // Your actual Project ID
-      dataset: "production",
-      apiVersion: "2024-03-18",
+      projectId: env.SANITY_PROJECT_ID,
+      dataset: env.SANITY_DATASET || "production",
+      apiVersion: env.SANITY_API_VERSION || "2024-03-18",
       useCdn: true,
     }),
   ],

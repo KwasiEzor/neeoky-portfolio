@@ -10,8 +10,12 @@ const socialLinks = [
 ];
 ---
 
-<BaseLayout title="Contact — neeoky | Créatif Digital Augmenté par l'IA">
-  <main>
+<BaseLayout
+  title="Contact — neeoky | Créatif Digital Augmenté par l'IA"
+  description="Décris-moi ton projet et je te réponds sous 24h. Devis gratuit, sans engagement."
+  canonicalUrl="https://neeoky.com/contact"
+>
+  <main id="main-content">
     <!-- Contact Hero -->
     <section class="contact-hero">
       <div class="container">
@@ -75,6 +79,7 @@ const socialLinks = [
             </div>
             <button type="submit" class="btn btn-primary btn-full btn-submit">
               <span class="btn-text">Envoyer le message</span>
+              <span class="btn-loader" aria-hidden="true"></span>
             </button>
             <div class="form-success" id="formSuccess">
               <i data-lucide="check-circle"></i>
@@ -201,14 +206,103 @@ const socialLinks = [
 </style>
 
 <script>
-  // Simple form handling
-  const form = document.getElementById('contactForm');
-  const success = document.getElementById('formSuccess');
-  
-  if (form && success) {
+  function isValidEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function showFormError(message: string) {
+    const existing = document.querySelector('.form-toast-error');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'form-toast-error glass';
+    toast.innerHTML = `
+      <i data-lucide="alert-circle"></i>
+      <p>${message}</p>
+    `;
+    document.body.appendChild(toast);
+    if (window.lucide) window.lucide.createIcons();
+
+    // Trigger reflow for transition
+    toast.offsetHeight;
+    toast.classList.add('visible');
+
+    setTimeout(() => {
+      toast.classList.remove('visible');
+      setTimeout(() => toast.remove(), 600);
+    }, 4000);
+  }
+
+  function initContactForm() {
+    const form = document.getElementById('contactForm') as HTMLFormElement | null;
+    const successMsg = document.getElementById('formSuccess');
+    if (!form) return;
+
     form.addEventListener('submit', async (e) => {
-      // Formspree handles the POST, this is just for UI feedback if needed
-      // In a real app, you'd use fetch() to prevent redirect if preferred
+      e.preventDefault();
+
+      // Reset errors
+      form.querySelectorAll('.form-group').forEach((g) => g.classList.remove('error'));
+
+      // Validate
+      let isValid = true;
+
+      const name = form.querySelector('#name') as HTMLInputElement;
+      const email = form.querySelector('#email') as HTMLInputElement;
+      const projectType = form.querySelector('#project-type') as HTMLSelectElement;
+      const message = form.querySelector('#message') as HTMLTextAreaElement;
+
+      if (!name.value.trim()) {
+        name.closest('.form-group')?.classList.add('error');
+        isValid = false;
+      }
+
+      if (!email.value.trim() || !isValidEmail(email.value)) {
+        email.closest('.form-group')?.classList.add('error');
+        isValid = false;
+      }
+
+      if (!projectType.value) {
+        projectType.closest('.form-group')?.classList.add('error');
+        isValid = false;
+      }
+
+      if (!message.value.trim()) {
+        message.closest('.form-group')?.classList.add('error');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      const submitBtn = form.querySelector('.btn-submit') as HTMLButtonElement;
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('Erreur réseau');
+
+        form.reset();
+        if (successMsg) successMsg.classList.add('visible');
+        if (window.lucide) window.lucide.createIcons();
+
+        setTimeout(() => {
+          if (successMsg) successMsg.classList.remove('visible');
+        }, 5000);
+      } catch {
+        showFormError('Une erreur est survenue. Veuillez réessayer ou me contacter directement.');
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
     });
   }
+
+  initContactForm();
+  document.addEventListener('astro:after-swap', initContactForm);
 </script>

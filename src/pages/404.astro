@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Page introuvable | neeoky"
+  description="La page que vous recherchez n'existe pas."
+>
+  <main id="main-content" class="error-page">
+    <div class="container">
+      <div class="error-content">
+        <span class="error-code">404</span>
+        <h1>Page <span class="gradient-text">introuvable</span></h1>
+        <p>La page que tu cherches n'existe pas ou a été déplacée.</p>
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">
+            <i data-lucide="home"></i>
+            Retour à l'accueil
+          </a>
+          <a href="/contact" class="btn btn-ghost">
+            <i data-lucide="send"></i>
+            Me contacter
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .error-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .error-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .error-code {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(6rem, 15vw, 12rem);
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

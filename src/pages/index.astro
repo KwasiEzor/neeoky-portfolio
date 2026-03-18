@@ -11,8 +11,12 @@ import Showcase from '../components/Showcase.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout title="neeoky — Créatif Digital Augmenté par l'IA">
-	<main>
+<BaseLayout
+	title="neeoky — Créatif Digital Augmenté par l'IA"
+	description="Montage vidéo, sites vitrines sur mesure, services digitaux — le tout propulsé par un workflow 100% IA, livré en 24-48h."
+	canonicalUrl="https://neeoky.com/"
+>
+	<main id="main-content">
 		<Hero />
 		<Services />
 		<Process />
@@ -23,4 +27,39 @@ import Footer from '../components/Footer.astro';
 		<Showcase />
 	</main>
 	<Footer />
+
+	<!-- JSON-LD Structured Data -->
+	<script type="application/ld+json" is:inline set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "ProfessionalService",
+		"name": "neeoky",
+		"description": "Créatif Digital Augmenté par l'IA — Montage vidéo, sites vitrines, services digitaux propulsés par l'IA.",
+		"url": "https://neeoky.com",
+		"logo": "https://neeoky.com/assets/images/neeoky_monogram_transparent.svg",
+		"image": "https://neeoky.com/assets/images/hero-poster.jpg",
+		"priceRange": "€€",
+		"areaServed": "FR",
+		"knowsLanguage": ["fr", "en"],
+		"sameAs": [],
+		"offers": [
+			{
+				"@type": "Offer",
+				"name": "Pack Starter",
+				"price": "80",
+				"priceCurrency": "EUR"
+			},
+			{
+				"@type": "Offer",
+				"name": "Pack Pro IA",
+				"price": "180",
+				"priceCurrency": "EUR"
+			},
+			{
+				"@type": "Offer",
+				"name": "Pack Mensuel",
+				"price": "600",
+				"priceCurrency": "EUR"
+			}
+		]
+	})} />
 </BaseLayout>

@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Mentions légales — neeoky"
+  description="Mentions légales du site neeoky.com — informations juridiques obligatoires."
+  canonicalUrl="https://neeoky.com/mentions-legales"
+>
+  <main id="main-content" class="legal-page">
+    <div class="container">
+      <div class="legal-content">
+        <h1>Mentions <span class="gradient-text">légales</span></h1>
+        <p class="legal-updated">Dernière mise à jour : mars 2026</p>
+
+        <section class="legal-section">
+          <h2>1. Éditeur du site</h2>
+          <p>
+            Le site <strong>neeoky.com</strong> est édité par :<br />
+            <strong>neeoky</strong> — Créatif Digital Augmenté par l'IA<br />
+            Email : <a href="mailto:contact@neeoky.com">contact@neeoky.com</a>
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Hébergement</h2>
+          <p>
+            Le site est hébergé par :<br />
+            <strong>Vercel Inc.</strong><br />
+            440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis<br />
+            Site web : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Propriété intellectuelle</h2>
+          <p>
+            L'ensemble du contenu de ce site (textes, images, vidéos, logos, éléments graphiques)
+            est protégé par le droit d'auteur. Toute reproduction, même partielle, est interdite
+            sans autorisation préalable.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Données personnelles</h2>
+          <p>
+            Les données collectées via le formulaire de contact (nom, email, message) sont utilisées
+            uniquement pour répondre à votre demande. Elles ne sont ni vendues, ni partagées avec
+            des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification
+            et de suppression de vos données en contactant
+            <a href="mailto:contact@neeoky.com">contact@neeoky.com</a>.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>5. Cookies</h2>
+          <p>
+            Ce site n'utilise pas de cookies de suivi ou de publicité. Seuls des cookies techniques
+            strictement nécessaires au fonctionnement du site peuvent être utilisés.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>6. Responsabilité</h2>
+          <p>
+            L'éditeur s'efforce de fournir des informations exactes et à jour mais ne saurait
+            être tenu responsable d'erreurs ou d'omissions. Les liens vers des sites externes
+            sont fournis à titre informatif et n'engagent pas la responsabilité de l'éditeur.
+          </p>
+        </section>
+
+        <div class="legal-back">
+          <a href="/" class="btn btn-ghost">
+            <i data-lucide="arrow-left"></i>
+            Retour à l'accueil
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-updated {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 3rem;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .legal-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--violet);
+  }
+
+  .legal-section p {
+    color: var(--text-dim);
+    line-height: 1.8;
+    font-size: 0.95rem;
+  }
+
+  .legal-section a {
+    color: var(--violet);
+    text-decoration: underline;
+    transition: var(--transition);
+  }
+
+  .legal-section a:hover {
+    color: var(--rose);
+  }
+
+  .legal-back {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
