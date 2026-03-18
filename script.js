@@ -45,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 13. Showcase video ──
   initShowcaseVideo();
+
+  // ── 14. Testimonials carousel ──
+  initTestimonials();
+
+  // ── 15. Magnetic Buttons ──
+  initMagneticButtons();
 });
 
 
@@ -146,6 +152,7 @@ function initMobileMenu() {
     navLinks.classList.remove('open');
     hamburger.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
     if (overlay) overlay.classList.remove('visible');
   }
 
@@ -153,6 +160,7 @@ function initMobileMenu() {
     const isOpen = navLinks.classList.toggle('open');
     hamburger.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.classList.toggle('menu-open', isOpen);
     if (overlay) overlay.classList.toggle('visible', isOpen);
   });
 
@@ -164,6 +172,20 @@ function initMobileMenu() {
   // Close menu when clicking a link
   navLinks.querySelectorAll('.nav-link').forEach((link) => {
     link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  // Close menu if window resized past mobile breakpoint
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
   });
 }
 
@@ -305,12 +327,32 @@ function initContactForm() {
         if (successMsg) successMsg.classList.remove('visible');
       }, 5000);
     } catch (err) {
-      alert('Une erreur est survenue. Veuillez réessayer ou me contacter directement par email.');
+      // Create and show a temporary error toast
+      showFormError('Une erreur est survenue. Veuillez réessayer ou me contacter directement.');
     } finally {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
   });
+}
+
+function showFormError(message) {
+  const existing = document.querySelector('.form-toast-error');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'form-toast-error glass animate-on-scroll visible';
+  toast.innerHTML = `
+    <i data-lucide="alert-circle"></i>
+    <p>${message}</p>
+  `;
+  document.body.appendChild(toast);
+  lucide.createIcons();
+
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    setTimeout(() => toast.remove(), 400);
+  }, 4000);
 }
 
 function isValidEmail(email) {
@@ -484,4 +526,116 @@ function initShowcaseVideo() {
 
     observer.observe(wrapper);
   }
+}
+
+
+/* ═══════════════ 14. TESTIMONIALS CAROUSEL ═══════════════ */
+function initTestimonials() {
+  const carousel = document.querySelector('.testimonials-carousel');
+  if (!carousel) return;
+
+  const track = carousel.querySelector('.testimonials-track');
+  const slides = track.querySelectorAll('.testimonial-slide');
+  const prevBtn = carousel.querySelector('.testimonial-prev');
+  const nextBtn = carousel.querySelector('.testimonial-next');
+  const currentEl = carousel.querySelector('.testimonial-current');
+  const totalEl = carousel.querySelector('.testimonial-total');
+
+  if (!slides.length) return;
+
+  let currentIndex = 0;
+  let autoScrollInterval = null;
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  const total = slides.length;
+
+  // Set total counter
+  if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
+
+  function updateCounter() {
+    if (currentEl) currentEl.textContent = String(currentIndex + 1).padStart(2, '0');
+  }
+
+  function goTo(index) {
+    currentIndex = index;
+    if (currentIndex >= total) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = total - 1;
+
+    const slideWidth = track.offsetWidth;
+    track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+    updateCounter();
+  }
+
+  function next() { goTo(currentIndex + 1); }
+  function prev() { goTo(currentIndex - 1); }
+
+  // Arrows
+  if (prevBtn) prevBtn.addEventListener('click', prev);
+  if (nextBtn) nextBtn.addEventListener('click', next);
+
+  // Auto-scroll
+  function startAutoScroll() {
+    stopAutoScroll();
+    autoScrollInterval = setInterval(next, 5000);
+  }
+
+  function stopAutoScroll() {
+    if (autoScrollInterval) {
+      clearInterval(autoScrollInterval);
+      autoScrollInterval = null;
+    }
+  }
+
+  carousel.addEventListener('mouseenter', stopAutoScroll);
+  carousel.addEventListener('mouseleave', startAutoScroll);
+
+  // Touch / swipe support
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+    stopAutoScroll();
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) > 50) {
+      if (touchDeltaX < 0) next();
+      else prev();
+    }
+    startAutoScroll();
+  });
+
+  // Recalculate on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => goTo(currentIndex), 200);
+  });
+
+  // Init
+  goTo(0);
+  startAutoScroll();
+}
+
+/* ═══════════════ 15. MAGNETIC BUTTONS ═══════════════ */
+function initMagneticButtons() {
+  const btns = document.querySelectorAll('.btn-primary');
+  if (!btns.length || window.innerWidth < 768) return;
+
+  btns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - (rect.left + rect.width / 2);
+      const y = e.clientY - (rect.top + rect.height / 2);
+
+      btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
 }
