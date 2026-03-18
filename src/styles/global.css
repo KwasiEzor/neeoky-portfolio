@@ -363,7 +363,7 @@ img {
 .nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 998;
   opacity: 0;
   visibility: hidden;
@@ -384,7 +384,7 @@ body.menu-open .navbar {
 }
 
 body.menu-open .nav-overlay {
-  z-index: 1050;
+  z-index: 1040;
 }
 
 /* ── Form States ── */
