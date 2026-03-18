@@ -279,10 +279,13 @@ function initActiveNavLink() {
     const href = link.getAttribute('href');
     if (!href) return;
 
-    // Strip hash part for comparison
-    const linkPath = href.split('#')[0] || '/';
+    // Skip hash-only links (e.g. /#services) — they shouldn't get a permanent active state
+    if (href.includes('#')) {
+      link.classList.remove('active');
+      return;
+    }
 
-    if (linkPath === pathname || (pathname === '/' && linkPath === '/')) {
+    if (href === pathname) {
       link.classList.add('active');
     } else {
       link.classList.remove('active');
