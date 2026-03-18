@@ -11,7 +11,7 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     sanity({
-      projectId: env.SANITY_PROJECT_ID,
+      projectId: env.SANITY_PROJECT_ID || "cbdkq097",
       dataset: env.SANITY_DATASET || "production",
       apiVersion: env.SANITY_API_VERSION || "2024-03-18",
       useCdn: true,
