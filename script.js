@@ -529,119 +529,77 @@ function initShowcaseVideo() {
 }
 
 
-/* ═══════════════ 14. TESTIMONIALS CAROUSEL ═══════════════ */
+/* ═══════════════ 14. TESTIMONIALS CAROUSEL (Modern 2025) ═══════════════ */
 function initTestimonials() {
-  const carousel = document.querySelector('.testimonials-carousel');
-  if (!carousel) return;
+  const track = document.getElementById('testimonialsTrack');
+  const prevBtn = document.querySelector('.testimonial-prev');
+  const nextBtn = document.querySelector('.testimonial-next');
+  const currentEl = document.querySelector('.testimonial-current');
+  const totalEl = document.querySelector('.testimonial-total');
+  const slides = document.querySelectorAll('.testimonial-slide');
 
-  const track = carousel.querySelector('.testimonials-track');
-  const slides = track.querySelectorAll('.testimonial-slide');
-  const prevBtn = carousel.querySelector('.testimonial-prev');
-  const nextBtn = carousel.querySelector('.testimonial-next');
-  const currentEl = carousel.querySelector('.testimonial-current');
-  const totalEl = carousel.querySelector('.testimonial-total');
+  if (!track || !slides.length) return;
 
-  if (!slides.length) return;
-
-  let currentIndex = 0;
-  let autoScrollInterval = null;
-  let touchStartX = 0;
-  let touchDeltaX = 0;
   const total = slides.length;
-
-  // Set total counter
   if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
 
-  function updateCounter() {
-    if (currentEl) currentEl.textContent = String(currentIndex + 1).padStart(2, '0');
+  // ── Intersection Observer to detect active slide ──
+  const observerOptions = {
+    root: track,
+    threshold: 0.6
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = Array.from(slides).indexOf(entry.target);
+        if (currentEl) currentEl.textContent = String(index + 1).padStart(2, '0');
+        
+        // Update visibility classes for CSS transitions
+        slides.forEach(s => s.classList.remove('is-visible'));
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, observerOptions);
+
+  slides.forEach(slide => observer.observe(slide));
+
+  // ── Navigation Logic ──
+  function scrollToIndex(index) {
+    const slideWidth = slides[0].offsetWidth + 24; // Width + gap
+    track.scrollTo({
+      left: index * slideWidth,
+      behavior: 'smooth'
+    });
   }
 
-  function goTo(index) {
-    if (index >= total) currentIndex = 0;
-    else if (index < 0) currentIndex = total - 1;
-    else currentIndex = index;
-
-    const slideWidth = slides[0].offsetWidth;
-    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-    updateCounter();
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const currentIndex = Math.round(track.scrollLeft / (slides[0].offsetWidth + 24));
+      if (currentIndex >= total - 1) {
+        scrollToIndex(0); // Loop to start
+      } else {
+        scrollToIndex(currentIndex + 1);
+      }
+    });
   }
 
-  function next() {
-    goTo(currentIndex + 1);
-  }
-  
-  function prev() {
-    goTo(currentIndex - 1);
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const currentIndex = Math.round(track.scrollLeft / (slides[0].offsetWidth + 24));
+      if (currentIndex <= 0) {
+        scrollToIndex(total - 1); // Loop to end
+      } else {
+        scrollToIndex(currentIndex - 1);
+      }
+    });
   }
 
-  // Arrows (reset auto-scroll on click)
-  if (prevBtn) prevBtn.addEventListener('click', () => {
-    prev();
-    startAutoScroll();
+  // ── Keyboard Navigation ──
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') scrollToIndex(currentIndex - 1);
+    if (e.key === 'ArrowRight') scrollToIndex(currentIndex + 1);
   });
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    next();
-    startAutoScroll();
-  });
-
-  // Auto-scroll
-  function startAutoScroll() {
-    stopAutoScroll();
-    if (window.innerWidth > 768) { // Only auto-scroll on desktop
-      autoScrollInterval = setInterval(next, 5000);
-    }
-  }
-
-  function stopAutoScroll() {
-    if (autoScrollInterval) {
-      clearInterval(autoScrollInterval);
-      autoScrollInterval = null;
-    }
-  }
-
-  carousel.addEventListener('mouseenter', stopAutoScroll);
-  carousel.addEventListener('mouseleave', startAutoScroll);
-
-  // Touch / swipe support
-  track.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchDeltaX = 0;
-    stopAutoScroll();
-    track.style.transition = 'none'; // Disable transition during drag
-  }, { passive: true });
-
-  track.addEventListener('touchmove', (e) => {
-    touchDeltaX = e.touches[0].clientX - touchStartX;
-    const slideWidth = slides[0].offsetWidth;
-    const currentTranslate = -currentIndex * slideWidth;
-    track.style.transform = `translateX(${currentTranslate + touchDeltaX}px)`;
-  }, { passive: true });
-
-  track.addEventListener('touchend', () => {
-    track.style.transition = ''; // Restore transition
-    if (Math.abs(touchDeltaX) > 50) {
-      if (touchDeltaX < 0) next();
-      else prev();
-    } else {
-      goTo(currentIndex);
-    }
-    startAutoScroll();
-  });
-
-  // Recalculate on resize
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    track.style.transition = 'none'; // Disable transition on resize
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      goTo(currentIndex);
-      track.style.transition = ''; // Restore transition
-    }, 200);
-  });
-
-  // Init
-  goTo(0);
-  startAutoScroll();
 }
 
 /* ═══════════════ 15. MAGNETIC BUTTONS ═══════════════ */
