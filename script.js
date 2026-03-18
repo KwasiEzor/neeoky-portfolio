@@ -557,26 +557,39 @@ function initTestimonials() {
   }
 
   function goTo(index) {
-    currentIndex = index;
-    if (currentIndex >= total) currentIndex = 0;
-    if (currentIndex < 0) currentIndex = total - 1;
+    if (index >= total) currentIndex = 0;
+    else if (index < 0) currentIndex = total - 1;
+    else currentIndex = index;
 
-    const slideWidth = track.offsetWidth;
-    track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+    const slideWidth = slides[0].offsetWidth;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
     updateCounter();
   }
 
-  function next() { goTo(currentIndex + 1); }
-  function prev() { goTo(currentIndex - 1); }
+  function next() {
+    goTo(currentIndex + 1);
+  }
+  
+  function prev() {
+    goTo(currentIndex - 1);
+  }
 
-  // Arrows
-  if (prevBtn) prevBtn.addEventListener('click', prev);
-  if (nextBtn) nextBtn.addEventListener('click', next);
+  // Arrows (reset auto-scroll on click)
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    prev();
+    startAutoScroll();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    next();
+    startAutoScroll();
+  });
 
   // Auto-scroll
   function startAutoScroll() {
     stopAutoScroll();
-    autoScrollInterval = setInterval(next, 5000);
+    if (window.innerWidth > 768) { // Only auto-scroll on desktop
+      autoScrollInterval = setInterval(next, 5000);
+    }
   }
 
   function stopAutoScroll() {
@@ -594,16 +607,23 @@ function initTestimonials() {
     touchStartX = e.touches[0].clientX;
     touchDeltaX = 0;
     stopAutoScroll();
+    track.style.transition = 'none'; // Disable transition during drag
   }, { passive: true });
 
   track.addEventListener('touchmove', (e) => {
     touchDeltaX = e.touches[0].clientX - touchStartX;
+    const slideWidth = slides[0].offsetWidth;
+    const currentTranslate = -currentIndex * slideWidth;
+    track.style.transform = `translateX(${currentTranslate + touchDeltaX}px)`;
   }, { passive: true });
 
   track.addEventListener('touchend', () => {
+    track.style.transition = ''; // Restore transition
     if (Math.abs(touchDeltaX) > 50) {
       if (touchDeltaX < 0) next();
       else prev();
+    } else {
+      goTo(currentIndex);
     }
     startAutoScroll();
   });
@@ -611,8 +631,12 @@ function initTestimonials() {
   // Recalculate on resize
   let resizeTimer;
   window.addEventListener('resize', () => {
+    track.style.transition = 'none'; // Disable transition on resize
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => goTo(currentIndex), 200);
+    resizeTimer = setTimeout(() => {
+      goTo(currentIndex);
+      track.style.transition = ''; // Restore transition
+    }, 200);
   });
 
   // Init
