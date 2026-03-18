@@ -1,0 +1,216 @@
+---
+// src/components/Testimonials.astro
+const testimonials = [
+  {
+    text: "Montage ultra rapide et de grande qualité. Les sous-titres animés ont boosté mon taux de rétention de 40%. Je recommande à 100%.",
+    author: "Karim L.",
+    role: "Coach Fitness — Vidéo YouTube",
+    avatar: "/assets/images/albert-dera-ILip77SbmOE-unsplash.jpg"
+  },
+  {
+    text: "Mon site vitrine a été livré en 48h, responsive, rapide et avec un design qui impressionne mes clients. Excellent rapport qualité-prix.",
+    author: "Sophie M.",
+    role: "Naturopathe — Site Vitrine",
+    avatar: "/assets/images/ana-itonishvili-Fyl8sMC2j2Q-unsplash.jpg"
+  },
+  {
+    text: "Le workflow automatisé qu'il a mis en place me fait gagner 10h par semaine. Upload, montage, publication — tout tourne tout seul.",
+    author: "Thomas B.",
+    role: "Créateur Tech — Automation IA",
+    avatar: "/assets/images/podmatch-UpiF461EAHU-unsplash.jpg"
+  },
+  {
+    text: "4 vidéos par mois, toujours livrées dans les temps. Les clips Reels ont triplé ma visibilité sur Instagram. Partenaire idéal.",
+    author: "Nadia R.",
+    role: "Entrepreneuse — Pack Mensuel",
+    avatar: "/assets/images/stefan-stefancik-QXevDflbl8A-unsplash.jpg"
+  },
+  {
+    text: "Du site à la vidéo promo, tout a été géré de A à Z. Pro, réactif et créatif. Je referai appel à ses services sans hésiter.",
+    author: "Antoine D.",
+    role: "Artisan Plombier — Site + Vidéo",
+    avatar: "/assets/images/wellington-ferreira-72TE8cWKXRY-unsplash.jpg"
+  }
+];
+---
+
+<section class="section testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge"><i data-lucide="message-circle"></i> Témoignages</span>
+      <h2 class="section-title">
+        Ce qu'ils <span class="gradient-text">en disent</span>
+      </h2>
+      <p class="section-subtitle">
+        Des clients satisfaits, des projets livrés avec qualité.
+      </p>
+    </div>
+
+    <div class="carousel-container" aria-roledescription="carousel" aria-label="Témoignages clients">
+      <div class="testimonials-track" id="testimonialsTrack">
+        {testimonials.map((t, i) => (
+          <div class="testimonial-slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} sur ${testimonials.length}`}>
+            <div class="testimonial-content">
+              <p class="testimonial-text">"{t.text}"</p>
+              <div class="testimonial-author">
+                <div class="testimonial-name">{t.author}</div>
+                <div class="testimonial-role">{t.role}</div>
+              </div>
+            </div>
+            <div class="testimonial-visual">
+              <div class="testimonial-avatar">
+                <img src={t.avatar} alt={t.author} loading="lazy" />
+              </div>
+              <span class="testimonial-quote-icon">&ldquo;</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="testimonials-footer">
+        <nav class="testimonial-arrows" aria-label="Navigation du carrousel">
+          <button class="testimonial-arrow testimonial-prev" aria-label="Diapositive précédente">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <button class="testimonial-arrow testimonial-next" aria-label="Diapositive suivante">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </nav>
+        <div class="testimonial-counter">
+          <span class="testimonial-current">01</span>
+          <span class="testimonial-separator">/ </span>
+          <span class="testimonial-total">0{testimonials.length}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carousel-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .testimonials-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    scrollbar-width: none;
+  }
+
+  .testimonials-track::-webkit-scrollbar { display: none; }
+
+  .testimonial-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 4rem;
+    align-items: center;
+    padding: 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 40px;
+    backdrop-filter: blur(10px);
+  }
+
+  .testimonial-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .testimonial-name { font-weight: 700; font-size: 1.25rem; }
+  .testimonial-role { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.25rem; }
+
+  .testimonial-visual { position: relative; }
+  .testimonial-avatar {
+    width: 250px;
+    height: 320px;
+    border-radius: 30px;
+    overflow: hidden;
+  }
+
+  .testimonial-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .testimonial-quote-icon {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    font-size: 8rem;
+    color: var(--primary);
+    opacity: 0.2;
+    line-height: 1;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .testimonials-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .testimonial-arrows { display: flex; gap: 1rem; }
+  .testimonial-arrow {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-arrow:hover { background: var(--primary); border-color: var(--primary); }
+
+  .testimonial-counter {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .testimonial-separator { opacity: 0.3; margin: 0 0.5rem; }
+
+  @media (max-width: 900px) {
+    .testimonial-slide { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem; }
+    .testimonial-avatar { width: 100%; height: 250px; }
+    .testimonial-text { font-size: 1.25rem; }
+  }
+</style>
+
+<script>
+  // Simplified carousel logic for Astro
+  const track = document.getElementById('testimonialsTrack');
+  const prevBtn = document.querySelector('.testimonial-prev');
+  const nextBtn = document.querySelector('.testimonial-next');
+  const counterCurrent = document.querySelector('.testimonial-current');
+
+  if (track && prevBtn && nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: track.offsetWidth, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -track.offsetWidth, behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', () => {
+      const index = Math.round(track.scrollLeft / track.offsetWidth);
+      if (counterCurrent) {
+        counterCurrent.textContent = `0${index + 1}`;
+      }
+    });
+  }
+</script>

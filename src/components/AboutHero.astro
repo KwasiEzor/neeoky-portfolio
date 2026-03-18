@@ -1,0 +1,116 @@
+---
+// src/components/AboutHero.astro
+---
+
+<section class="about-hero">
+  <div class="container about-hero-grid">
+    <div class="about-hero-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        À propos
+      </div>
+      <h1>Je suis <span class="gradient-text">neeoky</span></h1>
+      <p>
+        Créatif digital augmenté par l'IA. Montage vidéo, sites vitrines
+        sur mesure, services digitaux — je combine créativité humaine et
+        puissance de l'intelligence artificielle pour livrer vite et bien.
+      </p>
+    </div>
+    <div class="about-avatar-card floating">
+      <div class="about-avatar">
+        <img
+          src="/assets/images/neeoky_monogram_transparent.svg"
+          alt="neeoky logo"
+        />
+      </div>
+      <div class="about-avatar-name">neeoky</div>
+      <div class="about-avatar-role">Créatif Digital IA</div>
+      <span class="about-avatar-location">
+        <i data-lucide="map-pin"></i>
+        France
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero {
+    padding: 12rem 0 8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-hero-content h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    margin-bottom: 2rem;
+    letter-spacing: -0.03em;
+  }
+
+  .about-hero-content p {
+    font-size: 1.25rem;
+    color: var(--text-dim);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .about-avatar-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: 3rem;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    margin-left: auto;
+  }
+
+  .about-avatar {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 20px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .about-avatar img { width: 100%; height: 100%; }
+
+  .about-avatar-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; }
+  .about-avatar-role { color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+  .about-avatar-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .about-avatar-location i { width: 16px; color: var(--primary); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .floating { animation: float 5s ease-in-out infinite; }
+
+  @media (max-width: 900px) {
+    .about-hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .about-hero-content { display: flex; flex-direction: column; align-items: center; }
+    .about-avatar-card { margin: 4rem auto 0; }
+  }
+</style>

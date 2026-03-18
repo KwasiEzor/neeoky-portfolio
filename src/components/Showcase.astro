@@ -1,0 +1,102 @@
+---
+// src/components/Showcase.astro
+---
+
+<section class="section showcase" id="showcase">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge"><i data-lucide="eye"></i> Aperçu</span>
+      <h2 class="section-title">
+        Le <span class="gradient-text">résultat</span> parle
+      </h2>
+      <p class="section-subtitle">
+        Voici ce que vous obtenez avec un workflow 100% IA.
+      </p>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-content">
+        <h3>Une vidéo pro, livrée en 24h</h3>
+        <ul class="showcase-list">
+          <li><i data-lucide="check-circle"></i> Montage dynamique et rythmé</li>
+          <li><i data-lucide="check-circle"></i> Animations et transitions IA</li>
+          <li><i data-lucide="check-circle"></i> Prêt à publier sur toutes les plateformes</li>
+        </ul>
+        <a href="/contact" class="btn btn-primary btn-lg">Obtenir le même résultat</a>
+      </div>
+      <div class="showcase-video-wrapper glass">
+        <video
+          class="showcase-video"
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/assets/images/showcase-poster.jpg"
+        >
+          <source
+            src="/assets/videos/Vidéo_Générée_Avec_Image_Animée.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <button class="showcase-play-btn" aria-label="Lire la vidéo">
+          <i data-lucide="play"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .showcase-content h3 { font-family: 'Syne', sans-serif; font-size: 2rem; margin-bottom: 2rem; }
+  .showcase-list { list-style: none; margin-bottom: 3rem; }
+  .showcase-list li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; font-size: 1.1rem; }
+  .showcase-list li i { color: var(--accent); }
+
+  .showcase-video-wrapper {
+    position: relative;
+    border-radius: 32px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  .showcase-video { width: 100%; height: 100%; object-fit: cover; }
+
+  .showcase-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+  }
+
+  @media (max-width: 1024px) {
+    .showcase-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const video = document.querySelector('.showcase-video');
+  const btn = document.querySelector('.showcase-play-btn');
+  btn?.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      btn.style.display = 'none';
+    }
+  });
+</script>

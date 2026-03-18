@@ -1,0 +1,352 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutHero from '../components/AboutHero.astro';
+import Footer from '../components/Footer.astro';
+
+const storySteps = [
+  {
+    number: "01",
+    title: "La passion du montage",
+    text: "Tout a commencé avec une fascination pour la vidéo et le storytelling. Des heures passées sur Premiere Pro et DaVinci Resolve à apprendre les techniques du montage professionnel."
+  },
+  {
+    number: "02",
+    title: "La découverte de l'IA",
+    text: "L'arrivée des outils IA a tout changé. J'ai compris que l'intelligence artificielle pouvait décupler ma productivité sans sacrifier la qualité créative."
+  },
+  {
+    number: "03",
+    title: "Aujourd'hui",
+    text: "Je combine le meilleur des deux mondes : l'oeil créatif humain et la puissance de l'IA. Résultat : des vidéos livrées en 24h avec une qualité irréprochable."
+  }
+];
+
+const skillCategories = [
+  {
+    icon: "🎬",
+    title: "Montage",
+    skills: [
+      { name: "Premiere Pro", level: 90 },
+      { name: "DaVinci Resolve", level: 85 },
+      { name: "CapCut", level: 95 },
+      { name: "Sous-titrage", level: 92 }
+    ]
+  },
+  {
+    icon: "🤖",
+    title: "IA & Automation",
+    skills: [
+      { name: "OpusClip", level: 95 },
+      { name: "Descript", level: 88 },
+      { name: "Make.com", level: 80 },
+      { name: "ChatGPT / Claude", level: 90 }
+    ]
+  },
+  {
+    icon: "🎨",
+    title: "Design & Visual",
+    skills: [
+      { name: "Canva", level: 92 },
+      { name: "Midjourney", level: 85 },
+      { name: "Leonardo.ai", level: 82 },
+      { name: "Miniatures", level: 88 }
+    ]
+  },
+  {
+    icon: "🌐",
+    title: "Web & Sites Vitrines",
+    skills: [
+      { name: "HTML / CSS", level: 90 },
+      { name: "JavaScript", level: 85 },
+      { name: "Design responsive", level: 88 },
+      { name: "SEO & Performance", level: 80 }
+    ]
+  }
+];
+
+const stats = [
+  { value: "24", suffix: "h", label: "Délai de livraison" },
+  { value: "100", suffix: "%", label: "Workflow IA" },
+  { value: "12", suffix: "+", label: "Outils maîtrisés" },
+  { value: "3", suffix: " max", label: "Clients par mois" }
+];
+
+const values = [
+  { icon: "🎯", title: "Qualité avant quantité", text: "3 clients max par mois. Chaque projet reçoit toute mon attention et mon énergie créative." },
+  { icon: "🤖", title: "L'IA est un outil, pas un remplacement", text: "L'IA accélère mon workflow, mais c'est mon oeil créatif qui fait la différence finale." },
+  { icon: "🤝", title: "Transparence totale", text: "Prix clairs, process transparent, communication directe. Pas de surprises, pas de frais cachés." },
+  { icon: "⚡", title: "Rapidité sans compromis", text: "Livraison en 24-48h sans jamais sacrifier la qualité. L'IA me permet d'aller vite et bien." }
+];
+
+const timeline = [
+  { year: "2024", title: "Début du montage vidéo & du web", text: "Premiers projets de montage sur Premiere Pro et DaVinci Resolve. Premiers sites web en HTML/CSS/JS." },
+  { year: "2024", title: "Découverte des outils IA", text: "Intégration d'OpusClip, Descript et Captions.ai dans mon workflow. Gain de productivité massif." },
+  { year: "2025", title: "Lancement de neeoky", text: "Création de la marque neeoky. Positionnement en tant que créatif digital augmenté par l'IA : vidéo, sites vitrines, services digitaux." },
+  { year: "2026", title: "Scaling & automation", text: "Automatisation poussée avec Make.com, workflows IA complets et positionnement sur Malt et Fiverr." }
+];
+---
+
+<BaseLayout title="À propos — neeoky | Créatif Digital Augmenté par l'IA">
+  <main>
+    <AboutHero />
+
+    <!-- Mon Parcours -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i data-lucide="book-open"></i> Mon parcours</span>
+          <h2 class="section-title">Comment j'en suis <span class="gradient-text">arrivé là</span></h2>
+        </div>
+        <div class="story-grid">
+          {storySteps.map((step) => (
+            <div class="story-card glass">
+              <div class="story-number">{step.number}</div>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i data-lucide="zap"></i> Compétences</span>
+          <h2 class="section-title">Mes <span class="gradient-text">skills</span></h2>
+        </div>
+        <div class="skills-grid">
+          {skillCategories.map((cat) => (
+            <div class="skill-category glass">
+              <h3><span>{cat.icon}</span> {cat.title}</h3>
+              {cat.skills.map((skill) => (
+                <div class="skill-item">
+                  <div class="skill-label">
+                    <span>{skill.name}</span><span>{skill.level}%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-fill" style={`width: ${skill.level}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i data-lucide="bar-chart-2"></i> Chiffres</span>
+          <h2 class="section-title">En <span class="gradient-text">quelques chiffres</span></h2>
+        </div>
+        <div class="stats-grid">
+          {stats.map((stat) => (
+            <div class="stat-card glass">
+              <div>
+                <span class="stat-value">{stat.value}</span><span class="stat-suffix">{stat.suffix}</span>
+              </div>
+              <div class="stat-label">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Valeurs -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i data-lucide="heart"></i> Valeurs</span>
+          <h2 class="section-title">Ce qui me <span class="gradient-text">guide</span></h2>
+        </div>
+        <div class="values-grid">
+          {values.map((v) => (
+            <div class="value-card glass">
+              <span class="value-icon">{v.icon}</span>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i data-lucide="clock"></i> Timeline</span>
+          <h2 class="section-title">Mon <span class="gradient-text">évolution</span></h2>
+        </div>
+        <div class="timeline">
+          {timeline.map((item) => (
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-year">{item.year}</div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-card glass">
+          <h2>Envie de travailler <span class="gradient-text">ensemble</span> ?</h2>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn btn-primary btn-lg">
+              <i data-lucide="send"></i>
+              Me contacter
+            </a>
+            <a href="/#services" class="btn btn-ghost btn-lg">
+              <i data-lucide="package"></i>
+              Voir mes offres
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .story-card {
+    padding: 3rem;
+    border-radius: 32px;
+  }
+
+  .story-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    opacity: 0.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-card h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; }
+  .story-card p { color: var(--text-dim); line-height: 1.7; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .skill-category {
+    padding: 2.5rem;
+    border-radius: 24px;
+  }
+
+  .skill-category h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .skill-item { margin-bottom: 1.5rem; }
+  .skill-label { display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.9rem; font-weight: 600; }
+  .skill-bar { height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
+  .skill-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    padding: 3rem 2rem;
+    text-align: center;
+    border-radius: 24px;
+  }
+
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; }
+  .stat-suffix { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+  .stat-label { margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .value-card { padding: 3rem 2rem; border-radius: 32px; text-align: center; }
+  .value-icon { font-size: 3rem; display: block; margin-bottom: 1.5rem; }
+  .value-card h3 { font-family: 'Syne', sans-serif; margin-bottom: 1rem; }
+  .value-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+  .timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+    opacity: 0.3;
+  }
+
+  .timeline-item { position: relative; padding-bottom: 4rem; }
+  .timeline-dot {
+    position: absolute;
+    left: -3rem;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: 0 0 15px var(--primary);
+  }
+
+  .timeline-year {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-item h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; }
+  .timeline-item p { color: var(--text-dim); line-height: 1.6; }
+
+  .cta-card {
+    padding: 6rem;
+    border-radius: 40px;
+    text-align: center;
+  }
+
+  .cta-card h2 { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 3rem; }
+  .cta-buttons { display: flex; gap: 2rem; justify-content: center; }
+
+  @media (max-width: 768px) {
+    .cta-card { padding: 3rem 1.5rem; }
+    .cta-card h2 { font-size: 2rem; }
+    .cta-buttons { flex-direction: column; }
+  }
+</style>

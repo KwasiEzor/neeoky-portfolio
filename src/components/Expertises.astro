@@ -1,0 +1,52 @@
+---
+// src/components/Expertises.astro
+const expertises = [
+  { icon: "🌐", text: "Sites Vitrines & Web" },
+  { icon: "🎬", text: "Montage Vidéo" },
+  { icon: "🤖", text: "Automation & IA" },
+  { icon: "💼", text: "Entrepreneurs & PME" }
+];
+---
+
+<section class="section niches" id="expertises">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge"><i data-lucide="layers"></i> Expertises</span>
+      <h2 class="section-title">
+        Mes <span class="gradient-text">expertises</span>
+      </h2>
+      <p class="section-subtitle">
+        Création de sites, montage vidéo et services digitaux propulsés par l'IA.
+      </p>
+    </div>
+    <div class="niches-grid">
+      {expertises.map((e) => (
+        <div class="niche-pill glass">
+          <span class="niche-icon">{e.icon}</span>
+          <span>{e.text}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .niches-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .niche-pill {
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .niche-icon { font-size: 1.5rem; }
+</style>

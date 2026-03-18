@@ -1,0 +1,139 @@
+---
+// src/components/Process.astro
+const steps = [
+  {
+    number: "01",
+    title: "Tu m'envoies ta vidéo brute",
+    description: "Via Google Drive, WeTransfer ou Dropbox. Taille max : 10 Go par projet."
+  },
+  {
+    number: "02",
+    title: "Je monte avec mon workflow IA",
+    description: "Montage, sous-titrage, clips courts, miniatures — tout est optimisé par l'IA."
+  },
+  {
+    number: "03",
+    title: "Livraison en 24-48h",
+    description: "Tu reçois ta vidéo finie avec un récap des choix créatifs et techniques."
+  },
+  {
+    number: "04",
+    title: "Tu valides ou révises",
+    description: "1 révision gratuite incluse. Tu demandes, j'ajuste. Simple."
+  }
+];
+
+const tools = [
+  "🎞️ OpusClip", "📝 Descript", "💬 Captions.ai", "🎨 Leonardo.ai",
+  "🔊 ElevenLabs", "✂️ CapCut", "🎥 Premiere Pro", "🎬 DaVinci Resolve",
+  "🖼️ Canva", "🌄 Midjourney", "⚙️ Make.com", "🤖 ChatGPT"
+];
+---
+
+<section class="section process" id="process">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i data-lucide="workflow"></i>
+        Process
+      </span>
+      <h2 class="section-title">
+        Comment <span class="gradient-text">ça marche</span>
+      </h2>
+      <p class="section-subtitle">
+        Un process simple et rapide, pensé pour te faire gagner du temps.
+      </p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-steps">
+        {steps.map((step) => (
+          <div class="process-step glass">
+            <div class="step-number">{step.number}</div>
+            <div class="step-content">
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="process-tools">
+        <h3 class="tools-title">Mes outils IA</h3>
+        <div class="tools-grid">
+          {tools.map((tool) => (
+            <div class="tool-item glass">{tool}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .process-step {
+    display: flex;
+    gap: 2rem;
+    padding: 2.5rem;
+    border-radius: 24px;
+    align-items: center;
+  }
+
+  .step-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    opacity: 0.3;
+  }
+
+  .step-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-content p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .tools-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .tool-item {
+    padding: 1rem;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 1024px) {
+    .process-grid { grid-template-columns: 1fr; gap: 4rem; }
+  }
+</style>

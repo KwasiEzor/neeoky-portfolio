@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+
+const socialLinks = [
+  { icon: "clipboard-list", label: "Malt", url: "#" },
+  { icon: "check-circle-2", label: "Fiverr", url: "#" },
+  { icon: "linkedin", label: "LinkedIn", url: "#" },
+  { icon: "instagram", label: "Instagram", url: "#" }
+];
+---
+
+<BaseLayout title="Contact — neeoky | Créatif Digital Augmenté par l'IA">
+  <main>
+    <!-- Contact Hero -->
+    <section class="contact-hero">
+      <div class="container">
+        <div class="contact-hero-content">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Disponible pour nouveaux projets
+          </div>
+          <h1>Lançons quelque chose <span class="gradient-text">ensemble</span></h1>
+          <p>
+            Décris-moi ton projet et je te réponds sous 24h. Devis gratuit,
+            sans engagement.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="section contact-section">
+      <div class="container">
+        <div class="contact-page-grid">
+          <!-- LEFT: Form -->
+          <form
+            class="contact-form glass"
+            id="contactForm"
+            action="https://formspree.io/f/xdawpebd"
+            method="POST"
+          >
+            <div class="form-group">
+              <label for="name">Nom</label>
+              <input type="text" id="name" name="name" placeholder="Ton nom" required />
+              <span class="form-error">Ce champ est requis</span>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="ton@email.com" required />
+              <span class="form-error">Email invalide</span>
+            </div>
+            <div class="form-group">
+              <label for="project-type">Type de projet</label>
+              <select id="project-type" name="project-type" required>
+                <option value="" disabled selected>Choisis une option</option>
+                <option value="starter">Pack Starter (80€)</option>
+                <option value="pro">Pack Pro IA (180€)</option>
+                <option value="mensuel">Pack Mensuel (600€)</option>
+                <option value="addon">Add-on à la carte</option>
+                <option value="autre">Autre / Sur mesure</option>
+              </select>
+              <span class="form-error">Sélectionne un type de projet</span>
+            </div>
+            <div class="form-group">
+              <label for="message">Description du projet</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Décris ton projet, ta chaîne, tes besoins..."
+                required
+              ></textarea>
+              <span class="form-error">Ce champ est requis</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full btn-submit">
+              <span class="btn-text">Envoyer le message</span>
+            </button>
+            <div class="form-success" id="formSuccess">
+              <i data-lucide="check-circle"></i>
+              <p>Message envoyé avec succès ! Je te réponds sous 24h.</p>
+            </div>
+          </form>
+
+          <!-- RIGHT: Sidebar -->
+          <div class="contact-sidebar">
+            <!-- Availability -->
+            <div class="contact-sidebar-card glass">
+              <h3>Disponibilité</h3>
+              <div class="sidebar-availability">
+                <span class="sidebar-dot"></span>
+                <span>Disponible pour nouveaux projets</span>
+              </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="contact-sidebar-card glass">
+              <h3>Retrouvez-moi</h3>
+              <div class="sidebar-links">
+                {socialLinks.map((link) => (
+                  <a href={link.url} class="sidebar-link">
+                    <span class="sidebar-link-icon"><i data-lucide={link.icon}></i></span>
+                    <span>{link.label}</span>
+                    <i data-lucide="external-link"></i>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="sidebar-notes">
+              <div class="sidebar-note">
+                <i data-lucide="clock"></i>
+                <p><strong>Temps de réponse :</strong> Je réponds à tous les messages sous 24h maximum.</p>
+              </div>
+              <div class="sidebar-note">
+                <i data-lucide="file-text"></i>
+                <p><strong>Devis gratuit :</strong> Décris ton projet et reçois un devis détaillé sans engagement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .contact-hero { padding: 10rem 0 4rem; text-align: center; }
+  .contact-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; }
+  .contact-hero p { color: var(--text-dim); font-size: 1.25rem; max-width: 600px; margin: 0 auto; }
+
+  .contact-section { padding-top: 2rem; }
+  .contact-page-grid { display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: start; }
+
+  .contact-form { padding: 3rem; border-radius: 32px; display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.75rem; }
+  .form-group label { font-weight: 600; font-size: 0.9rem; color: var(--text-dim); }
+  
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: white;
+    font-family: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .form-error { display: none; color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; }
+
+  .contact-sidebar { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-sidebar-card { padding: 2rem; border-radius: 24px; }
+  .contact-sidebar-card h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; }
+
+  .sidebar-availability { display: flex; align-items: center; gap: 0.75rem; color: #22c55e; font-weight: 600; }
+  .sidebar-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+
+  .sidebar-links { display: flex; flex-direction: column; gap: 1rem; }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-link:hover { background: rgba(255, 255, 255, 0.08); transform: translateX(5px); }
+  .sidebar-link-icon { color: var(--primary); }
+  .sidebar-link i[data-lucide="external-link"] { margin-left: auto; opacity: 0.3; width: 14px; }
+
+  .sidebar-notes { display: flex; flex-direction: column; gap: 1.5rem; }
+  .sidebar-note { display: flex; gap: 1rem; color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+  .sidebar-note i { color: var(--accent); width: 20px; flex-shrink: 0; }
+
+  .form-success {
+    display: none;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    padding: 1.5rem;
+    border-radius: 12px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-page-grid { grid-template-columns: 1fr; }
+    .contact-sidebar { order: -1; }
+  }
+</style>
+
+<script>
+  // Simple form handling
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  
+  if (form && success) {
+    form.addEventListener('submit', async (e) => {
+      // Formspree handles the POST, this is just for UI feedback if needed
+      // In a real app, you'd use fetch() to prevent redirect if preferred
+    });
+  }
+</script>

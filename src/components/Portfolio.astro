@@ -1,0 +1,205 @@
+---
+// src/components/Portfolio.astro
+const projects = [
+  {
+    tag: "Montage Vidéo",
+    category: "🏋️ Coaching Fitness — Vidéo YouTube + 3 Reels",
+    description: "Montage complet d'une vidéo longue (12 min), extraction de 3 clips Reels, sous-titres animés et miniature IA.",
+    metrics: [
+      { icon: "clock", label: "Livré en 24h" },
+      { icon: "film", label: "4 livrables" }
+    ],
+    gradient: "linear-gradient(135deg, #a855f7, #ec4899)"
+  },
+  {
+    tag: "Site Vitrine",
+    category: "🌐 Coach Bien-être — Site vitrine sur mesure",
+    description: "Site one-page responsive avec formulaire de contact, galerie de services, témoignages et optimisation SEO.",
+    metrics: [
+      { icon: "smartphone", label: "100% responsive" },
+      { icon: "search", label: "SEO optimisé" }
+    ],
+    gradient: "linear-gradient(135deg, #2dd4bf, #a855f7)"
+  },
+  {
+    tag: "Montage Vidéo",
+    category: "🧠 Dev Perso — Série de 4 vidéos YouTube",
+    description: "Pack mensuel complet : 4 vidéos montées, 12 clips courts, 4 miniatures et sous-titres FR/EN automatisés.",
+    metrics: [
+      { icon: "package", label: "20 livrables" },
+      { icon: "globe", label: "FR + EN" }
+    ],
+    gradient: "linear-gradient(135deg, #ec4899, #2dd4bf)"
+  },
+  {
+    tag: "Site Vitrine",
+    category: "🛠️ Artisan local — Site vitrine + prise de RDV",
+    description: "Site multi-pages avec galerie photos, formulaire de devis, carte Google Maps intégrée et design premium.",
+    metrics: [
+      { icon: "layout", label: "Multi-pages" },
+      { icon: "zap", label: "Score 95+" }
+    ],
+    gradient: "linear-gradient(135deg, #a855f7, #2dd4bf)"
+  },
+  {
+    tag: "Automation IA",
+    category: "🤖 Créateur Tech — Workflow IA complet",
+    description: "Mise en place d'un pipeline automatisé : upload → montage IA → clips → miniature → planning publication.",
+    metrics: [
+      { icon: "repeat", label: "100% automatisé" },
+      { icon: "timer", label: "-70% de temps" }
+    ],
+    gradient: "linear-gradient(135deg, #ec4899, #a855f7)"
+  },
+  {
+    tag: "Montage Vidéo",
+    category: "🎌 Manga & Culture — Vidéo essay + clips viraux",
+    description: "Vidéo essay de 18 min avec motion design, transitions dynamiques, 5 clips TikTok et miniature optimisée CTR.",
+    metrics: [
+      { icon: "trending-up", label: "CTR optimisé" },
+      { icon: "film", label: "6 livrables" }
+    ],
+    gradient: "linear-gradient(135deg, #2dd4bf, #ec4899)"
+  }
+];
+---
+
+<section class="section portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <i data-lucide="play"></i>
+        Portfolio
+      </span>
+      <h2 class="section-title">
+        Mes <span class="gradient-text">réalisations</span>
+      </h2>
+      <p class="section-subtitle">
+        Projets livrés avec un workflow 100% IA — vidéo, web et digital.
+      </p>
+    </div>
+
+    <div class="portfolio-grid">
+      {projects.map((project) => (
+        <div class="portfolio-card glass">
+          <div class="portfolio-card-bg" style={`background: ${project.gradient}`}></div>
+          <div class="portfolio-card-content">
+            <span class="portfolio-tag">{project.tag}</span>
+            <span class="portfolio-category">{project.category}</span>
+            <p class="portfolio-desc">{project.description}</p>
+            <div class="portfolio-metrics">
+              {project.metrics.map((metric) => (
+                <span class="portfolio-metric">
+                  <i data-lucide={metric.icon}></i> {metric.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="portfolio-cta">
+      <p>Un projet en tête ? Discutons-en.</p>
+      <a href="/contact" class="btn btn-primary">
+        <i data-lucide="arrow-right"></i>
+        Démarrer un projet
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .portfolio-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .portfolio-card-bg {
+    height: 160px;
+    width: 100%;
+    opacity: 0.8;
+  }
+
+  .portfolio-card-content {
+    padding: 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .portfolio-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    width: fit-content;
+  }
+
+  .portfolio-category {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .portfolio-desc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+
+  .portfolio-metrics {
+    display: flex;
+    gap: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.5rem;
+  }
+
+  .portfolio-metric {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  .portfolio-metric i {
+    width: 16px;
+    color: var(--primary);
+  }
+
+  .portfolio-cta {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .portfolio-cta p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--text-dim);
+  }
+</style>

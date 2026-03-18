@@ -1,0 +1,163 @@
+---
+// src/components/Footer.astro
+---
+
+<footer class="footer-premium">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Col 1: Brand -->
+      <div class="footer-brand-col">
+        <a href="/" class="logo">
+          <img
+            src="/assets/images/neeoky_monogram_transparent.svg"
+            alt=""
+            class="logo-img"
+          />
+          neeoky
+        </a>
+        <p class="footer-tagline">
+          Vidéo, web & digital — augmenté par l'IA.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-link" aria-label="LinkedIn"
+            ><i data-lucide="linkedin"></i></a>
+          <a href="#" class="footer-social-link" aria-label="Instagram"
+            ><i data-lucide="instagram"></i></a>
+          <a
+            href="mailto:contact@neeoky.com"
+            class="footer-social-link"
+            aria-label="Email"
+            ><i data-lucide="mail"></i></a>
+        </div>
+      </div>
+
+      <!-- Col 2: Navigation -->
+      <div>
+        <h4 class="footer-col-title">Navigation</h4>
+        <nav class="footer-nav-list" aria-label="Footer navigation">
+          <a href="/">Accueil</a>
+          <a href="/about">À propos</a>
+          <a href="/#services">Services</a>
+          <a href="/#portfolio">Portfolio</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+
+      <!-- Col 3: Services -->
+      <div>
+        <h4 class="footer-col-title">Services</h4>
+        <nav class="footer-nav-list">
+          <a href="/#services">Pack Starter</a>
+          <a href="/#services">Pack Pro IA</a>
+          <a href="/#services">Pack Mensuel</a>
+          <a href="/#services">Add-ons</a>
+        </nav>
+      </div>
+
+      <!-- Col 4: Availability -->
+      <div>
+        <h4 class="footer-col-title">Disponibilité</h4>
+        <div class="footer-availability">
+          <span class="footer-status-badge">
+            <span class="footer-status-dot"></span>
+            Disponible
+          </span>
+          <a href="/contact" class="btn btn-primary footer-cta-btn">Me contacter</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <p>&copy; 2026 neeoky. Tous droits réservés.</p>
+      <p class="footer-made-with">
+        Fait avec &#10084;&#65039; et beaucoup d'IA
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-premium {
+    padding: 6rem 0 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(to bottom, transparent, rgba(168, 85, 247, 0.02));
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-img { width: 32px; height: 32px; }
+
+  .footer-tagline { color: var(--text-dim); margin-bottom: 2rem; max-width: 250px; }
+
+  .footer-socials { display: flex; gap: 1rem; }
+  .footer-social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    transition: all 0.3s ease;
+  }
+
+  .footer-social-link:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+  .footer-col-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; margin-bottom: 2rem; }
+
+  .footer-nav-list { display: flex; flex-direction: column; gap: 1rem; }
+  .footer-nav-list a { color: var(--text-dim); text-decoration: none; transition: all 0.3s ease; font-size: 0.95rem; }
+  .footer-nav-list a:hover { color: white; padding-left: 5px; }
+
+  .footer-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+
+  .footer-bottom-bar {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 1024px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom-bar { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
