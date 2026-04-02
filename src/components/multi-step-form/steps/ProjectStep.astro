@@ -1,0 +1,241 @@
+---
+import FormField from '../ui/FormField.astro';
+
+const projectTypes = [
+  '🌐 Site vitrine',
+  '🛒 E-commerce',
+  '💻 Application web',
+  '📱 Mobile app',
+  '🎨 Branding',
+  '🎬 Vidéo',
+  '📝 Autre',
+];
+
+const budgetRanges = [
+  '< 2 000€',
+  '2 000€ - 5 000€',
+  '5 000€ - 10 000€',
+  '10 000€ - 20 000€',
+  '> 20 000€',
+];
+
+const timelines = [
+  '⚡ Urgent (< 1 mois)',
+  '📅 1-2 mois',
+  '🗓️ 2-3 mois',
+  '⏰ > 3 mois',
+  '🤷 Flexible',
+];
+---
+
+<div class="step-wrapper">
+  <div class="step-header">
+    <h2 class="step-title">Parlez-nous de votre projet</h2>
+    <p class="step-description">
+      Plus vous serez précis, plus notre devis sera adapté à vos besoins
+    </p>
+  </div>
+
+  <div class="form-grid">
+    <!-- Project Type -->
+    <div class="form-field">
+      <label for="projectType" class="form-label">
+        Type de projet <span class="required">*</span>
+      </label>
+      <select id="projectType" class="form-select" required>
+        <option value="">Sélectionnez un type</option>
+        {projectTypes.map((type) => (
+          <option value={type}>{type}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Budget -->
+    <div class="form-field">
+      <label for="budget" class="form-label">
+        Budget estimé <span class="required">*</span>
+      </label>
+      <select id="budget" class="form-select" required>
+        <option value="">Sélectionnez une fourchette</option>
+        {budgetRanges.map((range) => (
+          <option value={range}>{range}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Timeline -->
+    <div class="form-field">
+      <label for="timeline" class="form-label">
+        Délai souhaité <span class="required">*</span>
+      </label>
+      <select id="timeline" class="form-select" required>
+        <option value="">Sélectionnez un délai</option>
+        {timelines.map((time) => (
+          <option value={time}>{time}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Description -->
+    <div class="form-field full-width">
+      <label for="projectDescription" class="form-label">
+        Description du projet <span class="required">*</span>
+      </label>
+      <textarea
+        id="projectDescription"
+        class="form-textarea"
+        rows="5"
+        maxlength="1000"
+        placeholder="Décrivez votre projet, vos objectifs, votre cible, vos inspirations..."
+        required
+      ></textarea>
+      <p class="char-count">
+        <span id="desc-count">0</span> / 1000
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .step-wrapper {
+    padding: 1rem 0;
+  }
+
+  .step-header {
+    margin-bottom: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .required {
+    color: #ef4444;
+  }
+
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .char-count {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+  }
+</style>
+
+<script>
+  import { formData, updateFormData, setStepValid } from '../../../stores/formStore';
+  import type { ProjectStepData } from '../../../lib/validations/schemas';
+  import { projectStepSchema } from '../../../lib/validations/schemas';
+
+  const fields = {
+    projectType: document.getElementById('projectType') as HTMLSelectElement,
+    budget: document.getElementById('budget') as HTMLSelectElement,
+    timeline: document.getElementById('timeline') as HTMLSelectElement,
+    projectDescription: document.getElementById('projectDescription') as HTMLTextAreaElement,
+  };
+
+  // Restore saved data
+  const saved = formData.get();
+  if (saved.projectType) fields.projectType.value = saved.projectType;
+  if (saved.budget) fields.budget.value = saved.budget;
+  if (saved.timeline) fields.timeline.value = saved.timeline;
+  if (saved.projectDescription) {
+    fields.projectDescription.value = saved.projectDescription;
+    updateCharCount();
+  }
+
+  // Character count
+  const descCount = document.getElementById('desc-count');
+  fields.projectDescription.addEventListener('input', () => {
+    updateCharCount();
+    saveToStore();
+  });
+
+  function updateCharCount() {
+    if (descCount) {
+      descCount.textContent = String(fields.projectDescription.value.length);
+    }
+  }
+
+  // Save on change
+  Object.values(fields).forEach((field) => {
+    field.addEventListener('change', saveToStore);
+  });
+
+  function saveToStore() {
+    const data: Partial<ProjectStepData> = {
+      projectType: fields.projectType.value,
+      budget: fields.budget.value,
+      timeline: fields.timeline.value,
+      projectDescription: fields.projectDescription.value,
+    };
+
+    updateFormData(data);
+
+    // Validate
+    try {
+      projectStepSchema.parse(data);
+      setStepValid(3, true);
+    } catch {
+      setStepValid(3, false);
+    }
+  }
+
+  // Initial validation
+  saveToStore();
+</script>

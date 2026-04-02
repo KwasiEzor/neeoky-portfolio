@@ -7,7 +7,7 @@ const env = loadEnv(import.meta.env?.MODE ?? 'production', process.cwd(), '');
 // https://astro.build/config
 export default defineConfig({
   site: 'https://neeoky.com',
-  output: 'static',
+  output: 'hybrid', // Use hybrid mode to support both static pages and API routes
   trailingSlash: 'never',
   integrations: [
     sanity({

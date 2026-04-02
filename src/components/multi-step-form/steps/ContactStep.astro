@@ -1,0 +1,258 @@
+---
+import FormField from '../ui/FormField.astro';
+---
+
+<div class="step-wrapper">
+  <div class="step-header">
+    <h2 class="step-title">Vos coordonnées</h2>
+    <p class="step-description">
+      Nous avons besoin de ces informations pour vous recontacter
+    </p>
+  </div>
+
+  <div class="form-grid">
+    <!-- First Name -->
+    <div class="form-field">
+      <label for="firstName" class="form-label">
+        Prénom <span class="required">*</span>
+      </label>
+      <input
+        id="firstName"
+        type="text"
+        class="form-input"
+        placeholder="Jean"
+        required
+        autocomplete="given-name"
+      />
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-field">
+      <label for="lastName" class="form-label">
+        Nom <span class="required">*</span>
+      </label>
+      <input
+        id="lastName"
+        type="text"
+        class="form-input"
+        placeholder="Dupont"
+        required
+        autocomplete="family-name"
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="form-field">
+      <label for="email" class="form-label">
+        Email <span class="required">*</span>
+      </label>
+      <input
+        id="email"
+        type="email"
+        class="form-input"
+        placeholder="jean.dupont@example.com"
+        required
+        autocomplete="email"
+      />
+    </div>
+
+    <!-- Phone -->
+    <div class="form-field">
+      <label for="phone" class="form-label">
+        Téléphone (optionnel)
+      </label>
+      <input
+        id="phone"
+        type="tel"
+        class="form-input"
+        placeholder="06 12 34 56 78"
+        autocomplete="tel"
+      />
+    </div>
+
+    <!-- Company -->
+    <div class="form-field full-width">
+      <label for="company" class="form-label">
+        Entreprise (optionnel)
+      </label>
+      <input
+        id="company"
+        type="text"
+        class="form-input"
+        placeholder="Nom de votre entreprise"
+        autocomplete="organization"
+      />
+    </div>
+
+    <!-- GDPR Consent -->
+    <div class="form-field full-width">
+      <label class="checkbox-label">
+        <input
+          id="gdprConsent"
+          type="checkbox"
+          class="checkbox-input"
+          required
+        />
+        <span class="checkbox-text">
+          J'accepte que mes données soient utilisées pour me recontacter concernant ma demande.
+          <a href="/mentions-legales" target="_blank" class="link">
+            Politique de confidentialité
+          </a>
+          <span class="required">*</span>
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<style>
+  .step-wrapper {
+    padding: 1rem 0;
+  }
+
+  .step-header {
+    margin-bottom: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .required {
+    color: #ef4444;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+  }
+
+  .checkbox-input {
+    margin-top: 0.25rem;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .checkbox-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+  }
+
+  .link {
+    color: #a855f7;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+
+  .link:hover {
+    color: #ec4899;
+  }
+</style>
+
+<script>
+  import { formData, updateFormData, setStepValid } from '../../../stores/formStore';
+  import type { ContactStepData } from '../../../lib/validations/schemas';
+  import { contactStepSchema } from '../../../lib/validations/schemas';
+
+  const fields = {
+    firstName: document.getElementById('firstName') as HTMLInputElement,
+    lastName: document.getElementById('lastName') as HTMLInputElement,
+    email: document.getElementById('email') as HTMLInputElement,
+    phone: document.getElementById('phone') as HTMLInputElement,
+    company: document.getElementById('company') as HTMLInputElement,
+    gdprConsent: document.getElementById('gdprConsent') as HTMLInputElement,
+  };
+
+  // Restore saved data
+  const saved = formData.get();
+  if (saved.firstName) fields.firstName.value = saved.firstName;
+  if (saved.lastName) fields.lastName.value = saved.lastName;
+  if (saved.email) fields.email.value = saved.email;
+  if (saved.phone) fields.phone.value = saved.phone;
+  if (saved.company) fields.company.value = saved.company;
+  if (saved.gdprConsent) fields.gdprConsent.checked = saved.gdprConsent;
+
+  // Save on change
+  Object.values(fields).forEach((field) => {
+    field.addEventListener('input', saveToStore);
+    field.addEventListener('change', saveToStore);
+  });
+
+  function saveToStore() {
+    const data: Partial<ContactStepData> = {
+      firstName: fields.firstName.value,
+      lastName: fields.lastName.value,
+      email: fields.email.value,
+      phone: fields.phone.value || undefined,
+      company: fields.company.value || undefined,
+      gdprConsent: fields.gdprConsent.checked,
+    };
+
+    updateFormData(data);
+
+    // Validate
+    try {
+      contactStepSchema.parse(data);
+      setStepValid(4, true);
+    } catch {
+      setStepValid(4, false);
+    }
+  }
+
+  // Initial validation
+  saveToStore();
+</script>

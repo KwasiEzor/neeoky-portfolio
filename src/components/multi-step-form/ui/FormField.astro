@@ -1,0 +1,181 @@
+---
+interface Props {
+  label: string;
+  name: string;
+  type?: 'text' | 'email' | 'tel' | 'textarea';
+  placeholder?: string;
+  required?: boolean;
+  error?: string;
+  value?: string;
+  rows?: number;
+  maxlength?: number;
+  autocomplete?: string;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  required = false,
+  error,
+  value = '',
+  rows = 4,
+  maxlength,
+  autocomplete,
+} = Astro.props;
+
+const inputId = `field-${name}`;
+const hasError = Boolean(error);
+---
+
+<div class="form-field">
+  <label for={inputId} class="form-label">
+    {label}
+    {required && <span class="required">*</span>}
+  </label>
+
+  {type === 'textarea' ? (
+    <textarea
+      id={inputId}
+      name={name}
+      class:list={['form-textarea', { error: hasError }]}
+      placeholder={placeholder}
+      required={required}
+      rows={rows}
+      maxlength={maxlength}
+      data-form-field={name}
+    >{value}</textarea>
+  ) : (
+    <input
+      id={inputId}
+      name={name}
+      type={type}
+      class:list={['form-input', { error: hasError }]}
+      placeholder={placeholder}
+      required={required}
+      value={value}
+      maxlength={maxlength}
+      autocomplete={autocomplete}
+      data-form-field={name}
+    />
+  )}
+
+  {hasError && (
+    <p class="error-message" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      {error}
+    </p>
+  )}
+
+  {maxlength && (
+    <p class="char-count">
+      <span data-char-count={name}>0</span> / {maxlength}
+    </p>
+  )}
+</div>
+
+<style>
+  .form-field {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .required {
+    color: #ef4444;
+    margin-left: 0.125rem;
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+
+  .form-input.error,
+  .form-textarea.error {
+    border-color: #ef4444;
+  }
+
+  .form-input.error:focus,
+  .form-textarea.error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #ef4444;
+  }
+
+  .error-message svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .char-count {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+</style>
+
+<script>
+  // Update character count for textareas with maxlength
+  document.querySelectorAll('[data-form-field]').forEach((field) => {
+    const input = field as HTMLInputElement | HTMLTextAreaElement;
+    const name = input.dataset.formField;
+    const countEl = document.querySelector(`[data-char-count="${name}"]`);
+
+    if (countEl && input.maxLength > 0) {
+      // Initial count
+      countEl.textContent = String(input.value.length);
+
+      // Update on input
+      input.addEventListener('input', () => {
+        countEl.textContent = String(input.value.length);
+      });
+    }
+  });
+</script>

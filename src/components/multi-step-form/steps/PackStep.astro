@@ -1,0 +1,296 @@
+---
+// Pack selection step
+---
+
+<div class="step-wrapper">
+  <div class="step-header">
+    <h2 class="step-title">Choisissez votre pack</h2>
+    <p class="step-description">
+      Sélectionnez l'offre qui correspond le mieux à vos besoins
+    </p>
+  </div>
+
+  <div class="packs-grid">
+    <div class="pack-card" data-pack="starter">
+      <div class="pack-header">
+        <div class="pack-icon">🌱</div>
+        <h3 class="pack-name">Starter</h3>
+        <p class="pack-description">Parfait pour démarrer</p>
+      </div>
+      <div class="pack-radio">
+        <div class="radio-circle"></div>
+      </div>
+    </div>
+
+    <div class="pack-card" data-pack="pro">
+      <div class="pack-badge">Populaire</div>
+      <div class="pack-header">
+        <div class="pack-icon">💼</div>
+        <h3 class="pack-name">Pro</h3>
+        <p class="pack-description">Pour les professionnels</p>
+      </div>
+      <div class="pack-radio">
+        <div class="radio-circle"></div>
+      </div>
+    </div>
+
+    <div class="pack-card" data-pack="premium">
+      <div class="pack-header">
+        <div class="pack-icon">⭐</div>
+        <h3 class="pack-name">Premium</h3>
+        <p class="pack-description">Solution complète</p>
+      </div>
+      <div class="pack-radio">
+        <div class="radio-circle"></div>
+      </div>
+    </div>
+
+    <div class="pack-card" data-pack="custom">
+      <div class="pack-header">
+        <div class="pack-icon">🎨</div>
+        <h3 class="pack-name">Sur mesure</h3>
+        <p class="pack-description">Projet personnalisé</p>
+      </div>
+      <div class="pack-radio">
+        <div class="radio-circle"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="custom-details" class="custom-details" style="display: none;">
+    <label for="customPackDetails" class="form-label">
+      Décrivez vos besoins spécifiques
+    </label>
+    <textarea
+      id="customPackDetails"
+      class="form-textarea"
+      placeholder="Décrivez votre projet sur mesure..."
+      rows="4"
+      maxlength="500"
+    ></textarea>
+  </div>
+</div>
+
+<style>
+  .step-wrapper {
+    padding: 1rem 0;
+  }
+
+  .step-header {
+    margin-bottom: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .packs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .pack-card {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .pack-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .pack-card.selected {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: #a855f7;
+  }
+
+  .pack-badge {
+    position: absolute;
+    top: -10px;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+  }
+
+  .pack-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .pack-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .pack-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+
+  .pack-description {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .pack-radio {
+    display: flex;
+    justify-content: center;
+  }
+
+  .radio-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .pack-card.selected .radio-circle {
+    border-color: #a855f7;
+  }
+
+  .pack-card.selected .radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #a855f7;
+    border-radius: 50%;
+  }
+
+  .custom-details {
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  .form-textarea:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+</style>
+
+<script>
+  import { formData, updateFormData, setStepValid } from '../../../stores/formStore';
+  import type { PackStepData } from '../../../lib/validations/schemas';
+
+  let selectedPack: string | null = null;
+  let customDetails: string = '';
+
+  // Restore saved data
+  const saved = formData.get();
+  if (saved.selectedPack) {
+    selectedPack = saved.selectedPack;
+    customDetails = saved.customPackDetails || '';
+    updateUI();
+  }
+
+  // Pack selection
+  document.querySelectorAll('.pack-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const pack = (card as HTMLElement).dataset.pack;
+      if (pack) {
+        selectedPack = pack;
+        updateUI();
+        saveToStore();
+      }
+    });
+  });
+
+  // Custom details
+  const customTextarea = document.getElementById('customPackDetails') as HTMLTextAreaElement;
+  if (customTextarea) {
+    customTextarea.value = customDetails;
+    customTextarea.addEventListener('input', () => {
+      customDetails = customTextarea.value;
+      saveToStore();
+    });
+  }
+
+  function updateUI() {
+    // Update pack selection
+    document.querySelectorAll('.pack-card').forEach((card) => {
+      const pack = (card as HTMLElement).dataset.pack;
+      if (pack === selectedPack) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+
+    // Show/hide custom details
+    const customDetailsEl = document.getElementById('custom-details');
+    if (customDetailsEl) {
+      customDetailsEl.style.display = selectedPack === 'custom' ? 'block' : 'none';
+    }
+  }
+
+  function saveToStore() {
+    const data: Partial<PackStepData> = {
+      selectedPack: selectedPack as any,
+      customPackDetails: customDetails || undefined,
+    };
+
+    updateFormData(data);
+
+    // Validate: must have a pack selected
+    const isValid = Boolean(selectedPack);
+    setStepValid(2, isValid);
+  }
+</script>

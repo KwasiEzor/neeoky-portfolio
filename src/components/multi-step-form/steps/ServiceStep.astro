@@ -1,0 +1,343 @@
+---
+// This step will be populated with services from Sanity
+---
+
+<div class="step-wrapper">
+  <div class="step-header">
+    <h2 class="step-title">Quels services vous intéressent ?</h2>
+    <p class="step-description">
+      Sélectionnez un ou plusieurs services pour lesquels vous souhaitez obtenir un devis
+    </p>
+  </div>
+
+  <div class="services-grid" id="services-grid">
+    <!-- Services will be loaded dynamically -->
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des services...</p>
+    </div>
+  </div>
+
+  <p class="error-message" id="service-error" style="display: none;"></p>
+</div>
+
+<style>
+  .step-wrapper {
+    padding: 1rem 0;
+  }
+
+  .step-header {
+    margin-bottom: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .loading {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(168, 85, 247, 0.3);
+    border-top-color: #a855f7;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .service-card {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .service-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .service-card.selected {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: #a855f7;
+  }
+
+  .service-card.popular::before {
+    content: '⭐ Populaire';
+    position: absolute;
+    top: -10px;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .service-icon {
+    font-size: 2rem;
+  }
+
+  .service-info {
+    flex: 1;
+  }
+
+  .service-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+
+  .service-price {
+    font-size: 0.875rem;
+    color: #a855f7;
+    font-weight: 500;
+  }
+
+  .service-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .service-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.375rem 0;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .service-features li::before {
+    content: '✓';
+    color: #22c55e;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .service-checkbox {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .service-card.selected .service-checkbox {
+    background: #a855f7;
+    border-color: #a855f7;
+  }
+
+  .service-checkbox svg {
+    width: 16px;
+    height: 16px;
+    color: white;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s;
+  }
+
+  .service-card.selected .service-checkbox svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.5rem;
+    color: #ef4444;
+    font-size: 0.875rem;
+  }
+</style>
+
+<script>
+  import { formData, updateFormData, setStepValid } from '../../../stores/formStore';
+  import type { ServiceStepData } from '../../../lib/validations/schemas';
+
+  let selectedServices: string[] = [];
+
+  // Load services from API
+  async function loadServices() {
+    const grid = document.getElementById('services-grid');
+    if (!grid) return;
+
+    try {
+      const response = await fetch('/api/services');
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        renderServices(result.data);
+
+        // Restore previously selected services
+        const saved = formData.get();
+        if (saved.selectedServices) {
+          selectedServices = saved.selectedServices;
+          updateUI();
+        }
+      } else {
+        throw new Error('Failed to load services');
+      }
+    } catch (error) {
+      grid.innerHTML = `
+        <div class="loading">
+          <p style="color: #ef4444;">Erreur lors du chargement des services</p>
+          <button onclick="location.reload()" class="btn btn-secondary">Réessayer</button>
+        </div>
+      `;
+    }
+  }
+
+  function renderServices(services: any[]) {
+    const grid = document.getElementById('services-grid');
+    if (!grid) return;
+
+    grid.innerHTML = services
+      .map(
+        (service) => `
+      <div class="service-card" data-service-id="${service._id}">
+        <div class="service-checkbox">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+
+        <div class="service-header">
+          <div class="service-icon">${service.icon || '📦'}</div>
+          <div class="service-info">
+            <h3 class="service-name">${service.name}</h3>
+            ${service.price ? `<p class="service-price">${service.price}</p>` : ''}
+          </div>
+        </div>
+
+        ${
+          service.features && service.features.length > 0
+            ? `
+          <ul class="service-features">
+            ${service.features.map((feature: string) => `<li>${feature}</li>`).join('')}
+          </ul>
+        `
+            : ''
+        }
+      </div>
+    `
+      )
+      .join('');
+
+    // Add click handlers
+    grid.querySelectorAll('.service-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        const serviceId = (card as HTMLElement).dataset.serviceId;
+        if (serviceId) {
+          toggleService(serviceId);
+        }
+      });
+    });
+  }
+
+  function toggleService(serviceId: string) {
+    const index = selectedServices.indexOf(serviceId);
+
+    if (index > -1) {
+      selectedServices.splice(index, 1);
+    } else {
+      selectedServices.push(serviceId);
+    }
+
+    updateUI();
+    saveToStore();
+  }
+
+  function updateUI() {
+    document.querySelectorAll('.service-card').forEach((card) => {
+      const serviceId = (card as HTMLElement).dataset.serviceId;
+      if (serviceId && selectedServices.includes(serviceId)) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+
+    // Hide error if at least one service selected
+    if (selectedServices.length > 0) {
+      const errorEl = document.getElementById('service-error');
+      if (errorEl) errorEl.style.display = 'none';
+    }
+  }
+
+  function saveToStore() {
+    const data: Partial<ServiceStepData> = {
+      selectedServices,
+    };
+
+    updateFormData(data);
+
+    // Validate step
+    const isValid = selectedServices.length > 0;
+    setStepValid(1, isValid);
+
+    if (!isValid) {
+      const errorEl = document.getElementById('service-error');
+      if (errorEl) {
+        errorEl.textContent = 'Veuillez sélectionner au moins un service';
+        errorEl.style.display = 'block';
+      }
+    }
+  }
+
+  // Initialize
+  loadServices();
+</script>

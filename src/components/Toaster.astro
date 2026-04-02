@@ -1,0 +1,85 @@
+---
+// Toast notification component using Sonner
+---
+
+<div id="toast-container"></div>
+
+<style is:global>
+  /* Sonner toast styles */
+  :root {
+    --toast-bg: rgba(20, 20, 20, 0.95);
+    --toast-border: rgba(255, 255, 255, 0.1);
+    --toast-text: #ffffff;
+    --toast-success: #22c55e;
+    --toast-error: #ef4444;
+    --toast-warning: #f59e0b;
+    --toast-info: #3b82f6;
+  }
+
+  [data-sonner-toaster] {
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  [data-sonner-toast] {
+    background: var(--toast-bg) !important;
+    border: 1px solid var(--toast-border) !important;
+    color: var(--toast-text) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  [data-sonner-toast][data-type='success'] {
+    border-color: var(--toast-success) !important;
+  }
+
+  [data-sonner-toast][data-type='error'] {
+    border-color: var(--toast-error) !important;
+  }
+
+  [data-sonner-toast][data-type='warning'] {
+    border-color: var(--toast-warning) !important;
+  }
+
+  [data-sonner-toast][data-type='info'] {
+    border-color: var(--toast-info) !important;
+  }
+
+  [data-content] {
+    color: var(--toast-text) !important;
+  }
+
+  [data-description] {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  [data-button] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  [data-button]:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+</style>
+
+<script>
+  import { Toaster, toast } from 'sonner';
+
+  // Mount Toaster on client-side
+  if (typeof window !== 'undefined') {
+    const container = document.getElementById('toast-container');
+    if (container) {
+      // Initialize Sonner
+      const toaster = Toaster({
+        position: 'bottom-right',
+        duration: 4000,
+        closeButton: true,
+        richColors: true,
+      });
+
+      // Make toast globally available
+      (window as any).toast = toast;
+    }
+  }
+</script>

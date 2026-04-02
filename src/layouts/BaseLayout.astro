@@ -2,6 +2,7 @@
 // src/layouts/BaseLayout.astro
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
+import Toaster from '../components/Toaster.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -87,6 +88,9 @@ const resolvedOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
 
 		<Navigation />
 		<slot />
+
+		<!-- Toast notifications -->
+		<Toaster />
 
 		<!-- Shared client-side scripts -->
 		<script>

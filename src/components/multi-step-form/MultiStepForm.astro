@@ -1,0 +1,425 @@
+---
+import StepIndicator from './StepIndicator.astro';
+import ServiceStep from './steps/ServiceStep.astro';
+import PackStep from './steps/PackStep.astro';
+import ProjectStep from './steps/ProjectStep.astro';
+import ContactStep from './steps/ContactStep.astro';
+import RecapStep from './steps/RecapStep.astro';
+---
+
+<div class="multi-step-form-container">
+  <div class="form-header">
+    <h1 class="form-title">Demande de Devis</h1>
+    <p class="form-subtitle">
+      Remplissez ce formulaire en quelques étapes pour obtenir votre devis personnalisé
+    </p>
+  </div>
+
+  <StepIndicator />
+
+  <div class="form-content">
+    <form id="multi-step-form" class="form">
+      <!-- Honeypot field (anti-bot) - must remain empty -->
+      <input
+        type="text"
+        name="website"
+        id="website"
+        autocomplete="off"
+        tabindex="-1"
+        style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+        aria-hidden="true"
+      />
+
+      <!-- Step 1: Service Selection -->
+      <div class="step-content" data-step="1">
+        <ServiceStep />
+      </div>
+
+      <!-- Step 2: Pack Selection -->
+      <div class="step-content" data-step="2" style="display: none;">
+        <PackStep />
+      </div>
+
+      <!-- Step 3: Project Details -->
+      <div class="step-content" data-step="3" style="display: none;">
+        <ProjectStep />
+      </div>
+
+      <!-- Step 4: Contact Information -->
+      <div class="step-content" data-step="4" style="display: none;">
+        <ContactStep />
+      </div>
+
+      <!-- Step 5: Recap -->
+      <div class="step-content" data-step="5" style="display: none;">
+        <RecapStep />
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="form-navigation">
+        <button
+          type="button"
+          id="btn-previous"
+          class="btn btn-secondary"
+          style="display: none;"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Précédent
+        </button>
+
+        <div class="auto-save-indicator" id="auto-save">
+          <svg class="save-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span id="save-text">Sauvegarde automatique</span>
+        </div>
+
+        <button
+          type="button"
+          id="btn-next"
+          class="btn btn-primary"
+        >
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+        <button
+          type="submit"
+          id="btn-submit"
+          class="btn btn-primary"
+          style="display: none;"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m3 17 6 6 15-15"></path>
+          </svg>
+          Envoyer la demande
+        </button>
+      </div>
+    </form>
+
+    <!-- Success Message -->
+    <div id="success-message" class="success-message" style="display: none;">
+      <div class="success-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2>Demande envoyée avec succès!</h2>
+      <p>Nous avons bien reçu votre demande et nous vous recontacterons dans les plus brefs délais.</p>
+      <button type="button" class="btn btn-primary" id="btn-new-request">
+        Nouvelle demande
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .multi-step-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+  }
+
+  .form-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .form {
+    min-height: 400px;
+  }
+
+  .step-content {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .auto-save-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .save-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Success Message */
+  .success-message {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .success-icon svg {
+    width: 48px;
+    height: 48px;
+    color: white;
+  }
+
+  .success-message h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .success-message p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 640px) {
+    .form-title {
+      font-size: 1.5rem;
+    }
+
+    .form-subtitle {
+      font-size: 1rem;
+    }
+
+    .form-content {
+      padding: 1.5rem;
+    }
+
+    .form-navigation {
+      flex-direction: column;
+    }
+
+    .auto-save-indicator {
+      order: -1;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  import { currentStep, canGoPrevious, canGoNext, isSubmitting, submitSuccess } from '../../stores/formStore';
+  import { validateStep } from '../../lib/validations/schemas';
+
+  // Initialize form
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeForm();
+  });
+
+  function initializeForm() {
+    const btnPrevious = document.getElementById('btn-previous') as HTMLButtonElement;
+    const btnNext = document.getElementById('btn-next') as HTMLButtonElement;
+    const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
+    const form = document.getElementById('multi-step-form') as HTMLFormElement;
+
+    // Subscribe to store changes
+    currentStep.subscribe((step) => {
+      updateStepVisibility(step);
+      updateNavigationButtons(step);
+    });
+
+    // Previous button
+    btnPrevious?.addEventListener('click', () => {
+      if (canGoPrevious.get()) {
+        const { previousStep } = await import('../../stores/formStore');
+        previousStep();
+      }
+    });
+
+    // Next button
+    btnNext?.addEventListener('click', async () => {
+      const isValid = await validateCurrentStep();
+      if (isValid && canGoNext.get()) {
+        const { nextStep } = await import('../../stores/formStore');
+        nextStep();
+      }
+    });
+
+    // Form submission
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleSubmit();
+    });
+
+    // New request button
+    document.getElementById('btn-new-request')?.addEventListener('click', () => {
+      const { resetForm } = await import('../../stores/formStore');
+      resetForm();
+      document.getElementById('success-message')!.style.display = 'none';
+      form.style.display = 'block';
+    });
+  }
+
+  function updateStepVisibility(step: number) {
+    document.querySelectorAll('.step-content').forEach((el, index) => {
+      const stepEl = el as HTMLElement;
+      stepEl.style.display = index + 1 === step ? 'block' : 'none';
+    });
+  }
+
+  function updateNavigationButtons(step: number) {
+    const btnPrevious = document.getElementById('btn-previous') as HTMLButtonElement;
+    const btnNext = document.getElementById('btn-next') as HTMLButtonElement;
+    const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
+
+    // Show/hide buttons
+    btnPrevious.style.display = step > 1 ? 'inline-flex' : 'none';
+    btnNext.style.display = step < 5 ? 'inline-flex' : 'none';
+    btnSubmit.style.display = step === 5 ? 'inline-flex' : 'none';
+  }
+
+  async function validateCurrentStep(): Promise<boolean> {
+    const { getFormData, currentStep: currentStepStore, setStepValid, setErrors } = await import('../../stores/formStore');
+    const data = getFormData();
+    const step = currentStepStore.get();
+
+    const result = validateStep(step, data);
+
+    if (result.success) {
+      setStepValid(step, true);
+      setErrors({});
+      return true;
+    } else {
+      setStepValid(step, false);
+      setErrors(result.errors || {});
+      return false;
+    }
+  }
+
+  async function handleSubmit() {
+    const { getFormData, startSubmission, handleSubmitSuccess, handleSubmitError } = await import('../../stores/formStore');
+
+    startSubmission();
+
+    try {
+      const data = getFormData();
+
+      const response = await fetch('/api/leads/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        handleSubmitSuccess();
+        document.getElementById('multi-step-form')!.style.display = 'none';
+        document.getElementById('success-message')!.style.display = 'block';
+      } else {
+        throw new Error(result.error || 'Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      handleSubmitError(error instanceof Error ? error.message : 'Erreur inconnue');
+      alert('Une erreur est survenue. Veuillez réessayer.');
+    }
+  }
+</script>

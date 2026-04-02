@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MultiStepForm from '../components/multi-step-form/MultiStepForm.astro';
+
+const pageTitle = 'Demande de Devis';
+const pageDescription = 'Obtenez un devis personnalisé pour votre projet en quelques étapes simples.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main class="page-container">
+    <MultiStepForm />
+  </main>
+</BaseLayout>
+
+<style>
+  .page-container {
+    min-height: 100vh;
+    padding: 4rem 1rem;
+    background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+  }
+
+  @media (max-width: 768px) {
+    .page-container {
+      padding: 2rem 1rem;
+    }
+  }
+</style>

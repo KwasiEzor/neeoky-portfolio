@@ -1,0 +1,334 @@
+---
+// Recap step - Summary of all form data
+---
+
+<div class="step-wrapper">
+  <div class="step-header">
+    <h2 class="step-title">Récapitulatif de votre demande</h2>
+    <p class="step-description">
+      Vérifiez les informations avant d'envoyer votre demande
+    </p>
+  </div>
+
+  <div class="recap-container" id="recap-container">
+    <!-- Will be populated by JavaScript -->
+  </div>
+
+  <div class="recap-notice">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+    <p>
+      Nous traiterons votre demande dans les plus brefs délais et vous recontacterons pour affiner les détails de votre projet.
+    </p>
+  </div>
+</div>
+
+<style>
+  .step-wrapper {
+    padding: 1rem 0;
+  }
+
+  .step-header {
+    margin-bottom: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .recap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .recap-section {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .edit-button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .edit-button:hover {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: #a855f7;
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .info-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .info-value {
+    font-size: 0.875rem;
+    color: white;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .services-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .service-tag {
+    padding: 0.375rem 0.75rem;
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .recap-notice {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+  }
+
+  .recap-notice svg {
+    width: 20px;
+    height: 20px;
+    color: #a855f7;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .recap-notice p {
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>
+
+<script>
+  import { formData, currentStep, setStepValid } from '../../../stores/formStore';
+
+  let services: any[] = [];
+
+  // Load services for display
+  async function loadServices() {
+    try {
+      const response = await fetch('/api/services');
+      const result = await response.json();
+      if (result.success) {
+        services = result.data;
+        renderRecap();
+      }
+    } catch (error) {
+      console.error('Error loading services:', error);
+      renderRecap();
+    }
+  }
+
+  function renderRecap() {
+    const data = formData.get();
+    const container = document.getElementById('recap-container');
+    if (!container) return;
+
+    // Get selected service names
+    const selectedServiceNames = data.selectedServices
+      ?.map((id: string) => {
+        const service = services.find((s: any) => s._id === id);
+        return service ? `${service.icon || '📦'} ${service.name}` : id;
+      })
+      .join(', ') || 'Non spécifié';
+
+    container.innerHTML = `
+      <!-- Services -->
+      <div class="recap-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            📋 Services sélectionnés
+          </h3>
+          <button class="edit-button" data-edit-step="1">Modifier</button>
+        </div>
+        <div class="section-content">
+          <p class="info-value">${selectedServiceNames}</p>
+        </div>
+      </div>
+
+      <!-- Pack -->
+      <div class="recap-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            📦 Pack choisi
+          </h3>
+          <button class="edit-button" data-edit-step="2">Modifier</button>
+        </div>
+        <div class="section-content">
+          <div class="info-row">
+            <span class="info-label">Pack</span>
+            <span class="info-value">${formatPack(data.selectedPack)}</span>
+          </div>
+          ${data.customPackDetails ? `
+            <div class="info-row">
+              <span class="info-label">Détails</span>
+              <span class="info-value">${data.customPackDetails}</span>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <!-- Project -->
+      <div class="recap-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            🎯 Détails du projet
+          </h3>
+          <button class="edit-button" data-edit-step="3">Modifier</button>
+        </div>
+        <div class="section-content">
+          <div class="info-row">
+            <span class="info-label">Type</span>
+            <span class="info-value">${data.projectType || 'Non spécifié'}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Budget</span>
+            <span class="info-value">${data.budget || 'Non spécifié'}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Délai</span>
+            <span class="info-value">${data.timeline || 'Non spécifié'}</span>
+          </div>
+          ${data.projectDescription ? `
+            <div class="info-row">
+              <span class="info-label">Description</span>
+              <span class="info-value">${data.projectDescription}</span>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="recap-section">
+        <div class="section-header">
+          <h3 class="section-title">
+            👤 Coordonnées
+          </h3>
+          <button class="edit-button" data-edit-step="4">Modifier</button>
+        </div>
+        <div class="section-content">
+          <div class="info-row">
+            <span class="info-label">Nom</span>
+            <span class="info-value">${data.firstName} ${data.lastName}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email</span>
+            <span class="info-value">${data.email || 'Non spécifié'}</span>
+          </div>
+          ${data.phone ? `
+            <div class="info-row">
+              <span class="info-label">Téléphone</span>
+              <span class="info-value">${data.phone}</span>
+            </div>
+          ` : ''}
+          ${data.company ? `
+            <div class="info-row">
+              <span class="info-label">Entreprise</span>
+              <span class="info-value">${data.company}</span>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
+    // Add click handlers to edit buttons
+    container.querySelectorAll('[data-edit-step]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const step = parseInt((btn as HTMLElement).dataset.editStep || '1');
+        currentStep.set(step);
+      });
+    });
+
+    // Mark step as valid
+    setStepValid(5, true);
+  }
+
+  function formatPack(pack?: string): string {
+    const packs: Record<string, string> = {
+      starter: '🌱 Starter',
+      pro: '💼 Pro',
+      premium: '⭐ Premium',
+      custom: '🎨 Sur mesure',
+    };
+    return packs[pack || ''] || 'Non spécifié';
+  }
+
+  // Load when step becomes visible
+  currentStep.subscribe((step) => {
+    if (step === 5) {
+      loadServices();
+    }
+  });
+
+  // Also render if already on step 5
+  if (currentStep.get() === 5) {
+    loadServices();
+  }
+
+  // Re-render when form data changes
+  formData.subscribe(() => {
+    if (currentStep.get() === 5) {
+      renderRecap();
+    }
+  });
+</script>
